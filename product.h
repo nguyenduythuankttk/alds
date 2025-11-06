@@ -41,5 +41,6 @@ class Product {
         void Subtract_Product(Vector <Product>&,const int &,const string&);
         void Add_Quantity(Vector<Product>&,const string&,const int&);
         void Add_Product(Vector<Product>&,const string&);
+        bool operator<(const Product&) const;
 };
 #endif

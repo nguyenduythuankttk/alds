@@ -1,29 +1,8 @@
-#include "library.h"
-using namespace std;
-void readfile(ifstream &filename,Vector<User> &v){
-    string s;
-    int i;
-    User u;
-    //ifstream filename("user.txt");
-    while (getline(filename,s)){
-        if (s=="") continue;
-        i=0;
-        stringstream sub(s);
-        while (getline(sub,s,',')){
-            if (i==0) u.SetuserID(stoi(s));
-            else if(i==1) u.Setusername(s);
-            else u.Setpassword(s);
-            i++;
-        }
-        v.push_back(u);
-    }
-}
-
+#include "map.h"
 int main(){
-    Vector <User> u;
-    ifstream file("user.txt");
-    readfile(file,u);
-    for (int i=0;i<u.getsize();i++)
-        u[i].ShowInfo();
-    return 0;
+    Map<string,int> pr;
+    pr.push_back("aa",100);
+    pr.push_back("ajfd",3);
+    cout<<pr.Find_key("aa");
+    cout<<pr.Get_Size();
 }

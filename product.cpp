@@ -97,3 +97,6 @@ void Product::Add_Product(Vector <Product>&v,const string& ID){
     cin>>this->quantity;
     v.push_back(*this);
 }
+bool Product::operator<(const Product& p)const{
+    return (p.id<this->id)?true:false;
+}
