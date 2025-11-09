@@ -14,6 +14,10 @@ class Map{
         void push_back(const T&,const U&);
         bool Is_Empty() const;
         U& Find_key(const T&) const;
+        T& getKey( int) const;
+        U& getValue(int) const;
+        void addValue(int,int);
+        void removeValue(int,int);
 };
 template <typename T,typename U>
 Map<T,U>::Map(const int& capacity):capacity(capacity){
@@ -61,4 +65,20 @@ void Map<T,U>::push_back(const T& Key,const U& Data){
         delete[] tmp_key;
         delete[] tmp_data;
     }
+}
+template <typename T,typename U>
+T& Map<T,U>::getKey( int index) const {
+    return this->key[index];
+}
+template <typename T,typename U>
+U& Map<T,U>::getValue( int index) const {
+    return this->data[index];
+}
+template <typename T,typename U>
+void Map<T,U>::addValue(int index,int value){
+    this->data[index]+=value;
+}
+template <typename T,typename U>
+void Map<T,U>::removeValue(int index,int value){
+    this->data[index]-=value;
 }

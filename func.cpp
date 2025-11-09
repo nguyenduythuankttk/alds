@@ -1,23 +1,6 @@
-#include "library.h"
+#pragma once
+#include "global.cpp"
 using namespace std;
-void readfile(ifstream &filename,Vector<User> &v){
-    string s;
-    int i;
-    User u;
-    ifstream filename("user.txt");
-    while (getline(filename,s)){
-        if (s=="") continue;
-        i=0;
-        stringstream sub(s);
-        while (getline(sub,s,',')){
-            if (i==0) u.SetuserID(stoi(s));
-            else if(i==1) u.Setusername(s);
-            else u.Setpassword(s);
-            i++;
-        }
-        v.push_back(u);
-    }
-}
 void sign_up(Vector <User>&v){
     string name,password,confirm_password;
     User u;
@@ -42,22 +25,38 @@ void sign_up(Vector <User>&v){
     }
     u=User(v.getsize(),name,password);
     v.push_back(u);
-    cout<<"Da tao tai khoan thanh cong";
+    cout<<"Da tao tai khoan thanh cong. Tro ve menu chinh"<<endl;
+    main_menu();
 }
 void user_sign_in(User &cur_User,Vector <User>&v){
     string username,password;
-    cout<<"Nhap ten dang nhap:";
-    getline(cin,username);
-    cout<<"Nhap mat khau:";
-    getline(cin,password);
-    for (int i=0;i<v.getsize();i++){
-        if (v[i].Getpassword()==password && v[i].Getusername()==username){
-            cur_User=v[i];
+    int count;
+    count =0;
+    bool a=false;
+    do{
+        cout<<"Nhap ten dang nhap:";
+        getline(cin,username);
+        cout<<"Nhap mat khau:";
+        getline(cin,password);
+        for (int i=0;i<v.getsize();i++){
+            if (v[i].Getpassword()==password && v[i].Getusername()==username){
+                cur_User=v[i];
+                a=true;
+            }
         }
+        count++;
+    }while (count<3 && a=false);
+    if (count>=3){
+        char c;
+        cout<<"Tai khoan chua ton tai.Tao tai khoan?(Y/N)";cin>>c;
+        c=toupper(c);
+        if (c=='Y') sign_up(v);
+        else main_menu();
+        return;
     }
     cout<<"Da dang nhap thanh cong!";
 }
-void employee_sign_in();
+void employee_sign_in(){}
 void main_menu(Vector <User>& v,User &cur_User){
     cout<<" ------------------------------ "<<endl;
     cout<<"|        Menu dang nhap        |"<<endl;
@@ -67,10 +66,14 @@ void main_menu(Vector <User>& v,User &cur_User){
     cout<<"3.Dang nhap voi tu cach nhan vien"<<endl;
     cout<<"Moi lua chon:";
     int choice;cin>>choice;
+    cin.ignore();
     switch (choice){
-    case 1:
-        user_sign_in(cur_User,v);
+    case 1:{
+        User current_User;
+        user_sign_in(current_User,v);
+        current_User.user_menu();
         break;
+    }
     case 2:
         sign_up(v);
         break;

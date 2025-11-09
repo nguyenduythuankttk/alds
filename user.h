@@ -1,4 +1,6 @@
 #include "person.h"
+#include "global.cpp"
+#pragma once
 #include <iostream>
 using namespace std;
 class User:public Person{
@@ -7,20 +9,13 @@ class User:public Person{
     public:
         User();
         User(const int&,const string&,const string&);
+        User(const User&);
         ~User();
         void SetuserID(const int&);
         void ShowInfo() const;
+        void readfile(Vector<User> &);
+        void savefile(const Vector<User> &) const;
+        int GetID() const;
+        void user_menu();
 
 };
-User::User(){}
-User::User(const int&ID,const string& username,const string& password):
-    Person(username,password),userID(ID){}
-User::~User(){}
-void User::ShowInfo() const{
-    cout<<"ID nguoi dung:"<<userID<<endl;
-    cout<<"Ten tai khoan:"<<username<<endl;
-    cout<<"Mat khau::"<<password<<endl;
-}
-void User::SetuserID(const int& ID){
-    this->userID=ID;
-}
