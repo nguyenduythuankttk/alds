@@ -1,10 +1,9 @@
 #include "user.h"
-#include <fstream>
-#include <sstream>
 #include "product.h"
+#include "customerorder.h"
 User::User(){}
-User::User(const int&ID,const string& username,const string& password):
-    Person(username,password),userID(ID){}
+User::User(const int&ID,const string& username,const string& password,const string &address):
+    Person(username,password),userID(ID),address(address){}
 User::User(const User& other){
     this->userID=other.userID;
     this->username=other.username;
@@ -19,6 +18,7 @@ void User::ShowInfo() const{
 void User::SetuserID(const int& ID){
     this->userID=ID;
 }
+string User::getAddress() const{ return address;}
 void User::readfile(Vector<User> &v){
     string s;
     int i;
@@ -60,58 +60,45 @@ void User::user_menu(){
     Product p;
     switch (choice){
         case 1: {
-            p.All_product(Product_List,Find_result);
-            p.Show(Find_result);
+            Product p;
             int lc;
-            cout<<"1.Quay lai menu"<<endl;
-            cout<<"2.Tiep tuc mua hang"<<endl;
-            cout<<"Moi lua chon:"<<endl;
-            cin>>lc;
-            if (lc==1) goto option;
-            int sl=0,stt=0;
-            map<Product,int> sanpham;
-            cout<<"Nhap stt san pham"<<endl;
-            cout<<"Nhap 0 de ket thuc"<<endl;
-            do{
-                cout<<"Nhap stt:";
-                cin>>stt;
-                slg:
-                cout<<"Nhap so luong san pham";
-                cin>>sl;
-                if (p[stt-1].Get_slg()>sl) {
-                    cout<<"San pham khong du so luong\n";
-                    cout<<"Vui long giam so luong san pham can mua\n";
-                    goto slg;
-                }
-                sanpham.insert(make_pair(p[stt-1],sl));
-            } while (stt!=0);
-            if (sanpham.empty()) goto option; else tonghang(sanpham);
-            break;
+            p.Show(inWarehouse);
+            cout<<"1.Mua hang\n";
+            cout<<"2.Quay lai\n";
+            cout<<"Moi lua chon";
+            if (lc==2) goto option;
+            else {
+                CustomerOrder c;
+                c.Create_Order(inWarehouse,CustomerOrder_List);
+            }
         }
         case 2:{
-            int price_min,price_max;
-            string category;
-            string product_name;
-            cout<<"Moi nhap thong tin cua san pham muon tim\n";
-            cout<<"Nhap -1 thay cho du lieu trong\n";
-            cout<<"Nhap loai san pham:";
-            cin>>category;
-            cout<<"Nhap khoang gia:";
-            cin>>price_min>>price_max;
-            cin.ignore();
-            if (price_min>price_max) swap(price_max,price_min);
-            cout<<"Nhap ten san pham:";
-            cin>>product_name;
-            vector <Product> P;
-            Product::Find_product(price_min,price_max,product_name,category,P);
-            Product::Showproduct(P);
-            break;
+            string name,category;
+            int min,max;
+            cout<<"Nhap thong tin san pham.Nhap '-1' de bo qua \n";
+            cout<<"Ten san pham:";getline(cin,name);
+            cout<<"Loai san pham:"; getline(cin,category);
+            cout<<"Gia thap nhat";cin>>min;
+            cout<<"Gia cao nhat";cin>>max;
+            Product p;
+            Vector <Product> result;
+            p.Find_product(inWarehouse,result,name,category,min,max);
+            p.Show(result);
+            int lc;
+            cout<<"1.Mua hang\n";
+            cout<<"2.Quay lai\n";
+            cout<<"Moi lua chon";
+            if (lc==2) goto option;
+            else {
+                CustomerOrder c;
+                c.Create_Order(result,CustomerOrder_List);
+            }
         }
         case 3: {
 
         }
         case 4:{
-            Menu();
+            //Menu();
         }
         
     }

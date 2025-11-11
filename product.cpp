@@ -1,6 +1,6 @@
 #include "product.h"
 #include <sstream>
-
+#include <limits.h>
 Product::Product() {}
 
 Product::Product(const string &Name, const string &id, const int &price, const string &cat)
@@ -109,4 +109,14 @@ Product& Product::Find_byid(const string& ID, const Vector<Product>& v) {
             return v[i];
     }
     throw runtime_error("Product not found");
+}
+void Product::Find_product(const Vector<Product>&v, Vector<Product>&result,const string& name,const string& category, int& min_price,int& max_price){
+    if (min_price==-1) min_price=0;
+    if (max_price==-1) max_price=INT_MAX;
+    if (max_price<min_price) swap(max_price,min_price);
+    for (int i=0;i<v.getsize();i++){
+        if ((name=="-1" || v[i].name==name) && (category=="-1" || v[i].category==category) && (v[i].price>=min_price) && (v[i].price<=max_price))
+            result.push_back(v[i]);
+    }
+
 }

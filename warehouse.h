@@ -1,7 +1,9 @@
+#pragma once
 #include <string>
-#include "vector.h"
 #include "map.h"
+#include "vector.h"
 using namespace std;
+class Product;
 class Warehouse{
     int id;
     string name;
@@ -20,4 +22,7 @@ class Warehouse{
         void Add_Product(const string& ,const int &);
         void Remove_Product(const string& , const int &);
         int Get_Quantity(const string&) const;
+        Warehouse& Find_by_Address(const Vector<Warehouse>&,const string&) const;
+        void ProductList(Vector<Product>&) ;
+        int Get_quantity(const string&) const;
 };

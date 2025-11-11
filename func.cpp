@@ -1,5 +1,10 @@
-#pragma once
-#include "global.cpp"
+#include "library.h"
+#include "warehouse.h"   
+#include "product.h"      
+#include "user.h"         
+#include "employee.h"     
+#include "purchaseorder.h"
+#include "customerorder.h"
 using namespace std;
 void sign_up(Vector <User>&v){
     string name,password,confirm_password;
@@ -23,7 +28,9 @@ void sign_up(Vector <User>&v){
         cout<<"Nhap sai mat khau.Vui long tao lai mat khau";
         goto create_password;
     }
-    u=User(v.getsize(),name,password);
+    string address;
+    cout<<"Nhap dia chi:";getline(cin,address);
+    u=User(v.getsize(),name,password,address);
     v.push_back(u);
     cout<<"Da tao tai khoan thanh cong. Tro ve menu chinh"<<endl;
     main_menu();
@@ -45,7 +52,7 @@ void user_sign_in(User &cur_User,Vector <User>&v){
             }
         }
         count++;
-    }while (count<3 && a=false);
+    }while (count<3 && a==false);
     if (count>=3){
         char c;
         cout<<"Tai khoan chua ton tai.Tao tai khoan?(Y/N)";cin>>c;
@@ -57,7 +64,7 @@ void user_sign_in(User &cur_User,Vector <User>&v){
     cout<<"Da dang nhap thanh cong!";
 }
 void employee_sign_in(){}
-void main_menu(Vector <User>& v,User &cur_User){
+void main_menu(){
     cout<<" ------------------------------ "<<endl;
     cout<<"|        Menu dang nhap        |"<<endl;
     cout<<" ------------------------------ "<<endl;
@@ -69,13 +76,16 @@ void main_menu(Vector <User>& v,User &cur_User){
     cin.ignore();
     switch (choice){
     case 1:{
-        User current_User;
-        user_sign_in(current_User,v);
+        user_sign_in(current_User,User_List);
         current_User.user_menu();
+        Warehouse tmp;
+        string address=current_User.getAddress();
+        a=tmp.Find_by_Address(Warehouse_List,address);
+        a.ProductList(inWarehouse);
         break;
     }
     case 2:
-        sign_up(v);
+        sign_up(User_List);
         break;
     case 3:
         employee_sign_in();

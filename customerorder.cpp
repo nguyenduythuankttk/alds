@@ -1,7 +1,11 @@
 #include "customerorder.h"
+#include "library.h"        
+#include "warehouse.h"       
+#include "product.h"         
+#include "user.h"       
 #include <fstream>
 #include <sstream>
-#include "global.cpp"
+#include "library.h"
 CustomerOrder::CustomerOrder(){
     this->id=0;
     this->customerID=0;
@@ -53,4 +57,39 @@ void CustomerOrder::saveFile(const Vector<CustomerOrder> &v) const{
         }
         file<<"\n";
     }
+}
+void CustomerOrder::Create_Order(const Vector <Product> &p ,Vector <CustomerOrder>&v){
+    CustomerOrder newOrder;
+    newOrder.id=v.getsize();
+    newOrder.customerID=current_User.GetID();
+    string date;
+    cout<<"Nhap ngay thang nam(dd/mm/yyyy)";cin>>date;
+    newOrder.orderDate=date;
+    ds:
+    cout<<"Nhap danh sach san pham va so luong muon mua";
+    cout<<"Nhap 0 de ket thuc";
+    int stt,slg,slg_max;
+    do{
+        cout<<"Nhap so thu tu san pham:";cin>>stt;
+        if (stt==0) break;
+        Product pr =p[stt-1];
+        slg_max=a.Get_Quantity(pr.Get_ID());
+        cout<<pr.Get_Name()<<pr.Get_price()<<slg_max;
+        do {
+        cout<<"Nhap so luong san pham can mua:"; 
+        cin>>slg;
+        }while (slg>slg_max && slg<0);
+        newOrder.productList.push_back(pr.Get_ID(),slg);
+    }while (stt!=0);
+    if (newOrder.productList.Get_Size()==0){
+        cout <<"Chua co san pham nao duoc tao.Tro ve menu chinh?(Y/N)";
+        char choice;
+        cin>>choice;
+        choice=toupper(choice);
+        if (choice=='N') goto ds;
+       // else //;
+    }
+    v.push_back(newOrder);
+    cout<<"Da tao don hang thanh cong\n";
+    return;
 }

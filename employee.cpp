@@ -37,3 +37,4 @@ void Employee::savefile(const Vector<Employee> &v) const{
 void Employee::setEmployeeID(const int& ID) {
     this->employeeID=ID;
 }
+int Employee::getEmployeeID() const{return this->employeeID;}

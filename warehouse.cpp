@@ -1,7 +1,8 @@
 #include "warehouse.h"
-#include <fstream>
-#include <sstream>
+#include "library.h"
+#include "product.h"
 Warehouse::Warehouse(){}
+Warehouse::~Warehouse(){}
 Warehouse::Warehouse(const int&id, const string& name,const string& address):id(id),address(address),name(name){}
 void Warehouse::readfile(Vector <Warehouse> &v){
     ifstream file("warehouse.txt");
@@ -40,11 +41,13 @@ Warehouse& Warehouse::Find_by_id(const int& id,const Vector<Warehouse>& v){
     for (int i=0;i<v.getsize();i++ ){
         if (v[i].id==id) return v[i];
     }
+    return v[0];
 }
 int Warehouse::Get_Quantity(const string& productID) const{
     for (int i=0;i<Inventory.Get_Size();i++){
         if (Inventory.getKey(i)==productID) return Inventory.getValue(i);
     }
+    return 0;
 }
 void Warehouse::Add_Product(const string& productID, const int &qty){
     for (int i=0;i<Inventory.Get_Size();i++){
@@ -62,4 +65,23 @@ void Warehouse::Remove_Product(const string& productID, const int &qty){
             return;
         }
     }
+}
+Warehouse& Warehouse::Find_by_Address(const Vector<Warehouse>& v,const string& address) const {
+    for (int i=0;i<v.getsize();i++) 
+        if (address==v[i].address) return v[i];
+    return v[0];
+}
+void Warehouse::ProductList(Vector<Product>& inWarehouse ) {
+    for (int i=0;i<this->Inventory.Get_Size();i++){
+        Product p;
+        string id=this->Inventory.getKey(i);
+        Product temp=p.Find_byid(id,Product_List);
+        inWarehouse.push_back(temp);
+    }
+}
+int Warehouse::Get_quantity(const string&ID) const{
+    for (int i=0;i<this->Inventory.Get_Size();i++){
+        if (this->Inventory.getKey(i)==ID) return Inventory.getValue(i);
+    }
+    return 0;
 }

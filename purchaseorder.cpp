@@ -1,21 +1,25 @@
 #include "purchaseorder.h"
-#include "warehouse.h"
-#include "global.cpp"
-#include <sstream>
+#include "customerorder.h"   
+#include "library.h"         
+#include "warehouse.h"       
+#include "product.h"         
+#include "user.h"     
+#include "employee.h"  
 Warehouse a;
 PurchaseOrder::PurchaseOrder(){}
 PurchaseOrder::~PurchaseOrder(){}
 void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder> &v){
     cout << "\n===== TAO PHIEU NHAP =====\n";   
-    this->id=v.getsize();
-    cout<<"Nhap ID nhan vien:";cin>>this->employeeID;
-    cout<<"Nhap ngay nhap";cin>>this->date;
-    cout<<"Nhap ma kho"; cin>> this->warehouseID;
+    PurchaseOrder newOrder;
+    newOrder.id=v.getsize();
+    newOrder.employeeID=current_Employee.getEmployeeID();
+    cout<<"Nhap ngay nhap";cin>>newOrder.date;
+    cout<<"Nhap ma kho"; cin>> newOrder.warehouseID;
     int i=0;
     string idproduct;
     Product pr;
     int quantity;
-    Warehouse w=a.Find_by_id(this->warehouseID,Warehouse_List);
+    Warehouse w=a.Find_by_id(newOrder.warehouseID,Warehouse_List);
     cout<<"Nhap danh sach san pham nhap.Nhap -1 de ket thuc qua trinh nhap";
     do {
         id:
@@ -36,10 +40,11 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder> &v){
             w.Add_Product(idproduct,quantity);
         }
         pr=pr.Find_byid(idproduct,Product_List);
-        this->sum+=pr.Get_price()*quantity;
+        newOrder.sum+=pr.Get_price()*quantity;
         i++;
         List.push_back(idproduct,quantity);
     } while (idproduct!="-1");
+    v.push_back(newOrder);
     cout<<"Da nhap thanh cong!";
 }
 void PurchaseOrder::Readfile(Vector <PurchaseOrder>& v){

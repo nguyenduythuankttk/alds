@@ -1,16 +1,30 @@
 #pragma once
 #include <string>
-#include "employee.h"
-#include "person.h"
-#include "vector.h"
-#include "user.h"
-#include "product.h"
-#include "warehouse.h"
-#include "purchaseorder.h"
 #include <sstream>
 #include <fstream>
 #include <iostream>
-void main_menu();
-void sign_up(Vector <User>&);
-void user_sign_in(User &,Vector <User>&);
-void employee_sign_in();
+#include "vector.h"
+#include "map.h"
+    class Warehouse;
+    class Product;
+    class User;
+    class Employee;
+    class PurchaseOrder;
+    class CustomerOrder;
+    extern Vector<Warehouse> Warehouse_List;  
+    extern Vector<Product> Product_List;
+    extern Vector<Product> inWarehouse;
+    extern Vector<User> User_List;
+    extern Vector<Employee> Employee_List;
+    extern Vector <PurchaseOrder> PurchaseOrder_List;
+    extern Vector <CustomerOrder> CustomerOrder_List;
+
+
+    extern User current_User;
+    extern Employee current_Employee;
+    extern Warehouse a;
+
+    void main_menu();
+    void sign_up(Vector <User>&);
+    void user_sign_in(User &,Vector <User>&);
+    void employee_sign_in();

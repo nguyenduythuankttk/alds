@@ -1,11 +1,12 @@
 #pragma once
-#include <string>
-#include <iostream>
-#include <fstream>
+#pragma once
 #include "map.h"
 #include "vector.h"
+#include <string>
 using namespace std;
-
+class Product;
+class User;
+using namespace std;
 class CustomerOrder {
     private:
         int id;                         // Mã đơn hàng của khách
@@ -21,5 +22,7 @@ class CustomerOrder {
         ~CustomerOrder();
         void readFile(Vector<CustomerOrder>&);
         void saveFile(const Vector<CustomerOrder>&) const;
+        void Create_Order(const Vector <Product> &,Vector <CustomerOrder>&);
         void show() const;
+        
 };

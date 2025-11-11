@@ -1,7 +1,10 @@
+#pragma once
+#pragma once
 #include "map.h"
 #include "vector.h"
-#pragma once
+#include <string>
 using namespace std;
+
 class PurchaseOrder{
     int id;
     int employeeID;

@@ -18,7 +18,6 @@ class String{
         friend istream& operator>>(istream&,String&);
         friend ostream& operator<<(ostream&,const String&);
         friend istream& getline(istream&,String&);
-
 };
 String::String(){
     this->data=new char[1];

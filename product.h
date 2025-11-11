@@ -1,11 +1,5 @@
 #pragma once
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <iomanip> 
-#include <map>
-#include <stdlib.h>
-#include "vector.h"
+#include "library.h"
 using namespace std;
 
 class Product {
@@ -37,11 +31,12 @@ public:
     Product& operator=(const Product&);
     Product& operator=(const Product*);
     bool Find_by_id(const string&, const Vector<Product>&) const; 
-    void Find_product(const Vector<Product>&, Vector<Product>&);
+    void Find_product(const Vector<Product>&, Vector<Product>&,const string&,const string&, int&,int&);
     void All_product(const Vector<Product>&, Vector<Product>&);
     void Show(const Vector<Product>&);
     void Add_Product(Vector<Product>&, const string&);
     bool operator<(const Product&) const;
     Product& Find_byid(const string&, const Vector<Product>&);
+
 };
 
