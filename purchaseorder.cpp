@@ -5,47 +5,53 @@
 #include "product.h"         
 #include "user.h"     
 #include "employee.h"  
-Warehouse a;
-PurchaseOrder::PurchaseOrder(){}
+PurchaseOrder::PurchaseOrder(){
+    this->sum=0;
+}
 PurchaseOrder::~PurchaseOrder(){}
 void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder> &v){
     cout << "\n===== TAO PHIEU NHAP =====\n";   
     PurchaseOrder newOrder;
     newOrder.id=v.getsize();
     newOrder.employeeID=current_Employee.getEmployeeID();
-    cout<<"Nhap ngay nhap";cin>>newOrder.date;
-    cout<<"Nhap ma kho"; cin>> newOrder.warehouseID;
+    cout<<"Nhap ngay nhap:";getline(cin,newOrder.date);
+    cout<<"Nhap ma kho:"; cin>> newOrder.warehouseID;cin.ignore();
     int i=0;
     string idproduct;
     Product pr;
     int quantity;
     Warehouse w=a.Find_by_id(newOrder.warehouseID,Warehouse_List);
-    cout<<"Nhap danh sach san pham nhap.Nhap -1 de ket thuc qua trinh nhap";
+    cout<<"Nhap danh sach san pham nhap.Nhap -1 de ket thuc qua trinh nhap\n";
     do {
         id:
-        cout<<"Nhap ID san pham:";cin>>idproduct;
+        cout<<"Nhap ID san pham:";getline(cin,idproduct);
         if (idproduct=="-1") break;
         if(pr.Find_by_id(idproduct,Product_List)) {
-            cout<<"Nhap so luong san pham:";cin>>quantity;
+            cout<<"Nhap so luong san pham:";cin>>quantity;cin.ignore();
             w.Add_Product(idproduct,quantity);
         }
         else {
             cout<<"San pham chua ton tai.Tao san pham moi?(Y/N)";
             char choice;
-            cin>>choice;
+            cin>>choice;cin.ignore();
             choice=toupper(choice);
             if (choice=='Y') pr.Add_Product(Product_List,idproduct);
             else goto id;
-            cout<<"Nhap so luong san pham:";cin>>quantity;
+            cout<<"Nhap so luong san pham:";cin>>quantity;cin.ignore();
             w.Add_Product(idproduct,quantity);
+            Product tmp,p=tmp.Find_byid(idproduct,Product_List);
+            p.Add_bought(quantity);
         }
         pr=pr.Find_byid(idproduct,Product_List);
         newOrder.sum+=pr.Get_price()*quantity;
         i++;
         List.push_back(idproduct,quantity);
     } while (idproduct!="-1");
+    cout<<"Tong tien:"<<newOrder.sum<<endl;
     v.push_back(newOrder);
-    cout<<"Da nhap thanh cong!";
+    cout<<"Da nhap thanh cong!Tro ve menu\n";
+    Employee e;
+    e.employee_menu();
 }
 void PurchaseOrder::Readfile(Vector <PurchaseOrder>& v){
     ifstream file("phieunhap.txt");

@@ -14,4 +14,5 @@ class Employee:public Person{
         void readfile(Vector<Employee>&);
         void savefile(const Vector<Employee>&) const;
         void ShowInfo() const;
+        void employee_menu() const;
 };

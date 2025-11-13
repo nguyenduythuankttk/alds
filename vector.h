@@ -10,6 +10,8 @@ class Vector{
     public:
         Vector(const int& =100);
         ~Vector();
+        Vector(const Vector<T>&); 
+        Vector<T>& operator=(const Vector<T>&);
         void push_back(const T&);
         T& operator[](const int&) const;
         //T& operator=(const T&);
@@ -23,24 +25,36 @@ Vector<T>::Vector(const int& capacity):capacity(capacity){
     this->cur=0;
 }
 template <typename T>
+Vector<T>::Vector(const Vector<T>& other) {
+    capacity = other.capacity;
+    cur = other.cur;
+    arr = new T[capacity];
+    for (int i = 0; i < cur; i++) arr[i] = other.arr[i];
+}
+template <typename T>
+Vector<T>& Vector<T>::operator=(const Vector<T>& other) {
+    if (this == &other) return *this;
+    delete[] arr;
+    capacity = other.capacity;
+    cur = other.cur;
+    arr = new T[capacity];
+    for (int i = 0; i < cur; i++) arr[i] = other.arr[i];
+    return *this;
+}
+template <typename T>
 Vector<T>::~Vector(){
     delete[] this->arr;
 }
 template <typename T>
-void Vector<T>::push_back(const T& x){
-    *(this->arr+this->cur) =x;
-    this->cur++;
-    if (this->cur==this->capacity){
-        T *temp =new T[this->capacity];
-        for (int i=0;i<this->capacity;i++)
-            *(temp+i)=*(this->arr+i);
-        delete [] this->arr;
-        this->arr=new T[this->capacity*2];
-        this->capacity*=2;
-        for (int i=0;i<this->capacity;i++)
-            *(this->arr+i)=*(temp+i);
-        delete [] temp;
+void Vector<T>::push_back(const T& x) {
+    if (cur == capacity) {
+        capacity *= 2;
+        T* temp = new T[capacity];
+        for (int i = 0; i < cur; i++) temp[i] = arr[i];
+        delete[] arr;
+        arr = temp;
     }
+    arr[cur++] = x;
 }
 template <typename T>
 T& Vector<T>::operator[](const int& i) const{
@@ -51,7 +65,7 @@ T& Vector<T>::operator[](const int& i) const{
 }
 template <typename T>
 void Vector<T>::Erase(){
-    delete this->arr;
+    delete []this->arr;
     this->cur=0;
     this->arr=new T[this->capacity];
 } 

@@ -55,15 +55,37 @@ void user_sign_in(User &cur_User,Vector <User>&v){
     }while (count<3 && a==false);
     if (count>=3){
         char c;
-        cout<<"Tai khoan chua ton tai.Tao tai khoan?(Y/N)";cin>>c;
+        cout<<"Tai khoan chua ton tai.Tao tai khoan?(Y/N)";cin>>c;cin.ignore();
         c=toupper(c);
         if (c=='Y') sign_up(v);
         else main_menu();
         return;
     }
-    cout<<"Da dang nhap thanh cong!";
+    cout<<"Da dang nhap thanh cong!\n";
 }
-void employee_sign_in(){}
+void employee_sign_in(Employee &cur_Employee,const Vector<Employee>& v){
+        string username,password;
+    int count;
+    count =0;
+    bool a=false;
+    do{
+        cout<<"Nhap ten dang nhap:";
+        getline(cin,username);
+        cout<<"Nhap mat khau:";
+        getline(cin,password);
+        for (int i=0;i<v.getsize();i++){
+            if (v[i].Getpassword()==password && v[i].Getusername()==username){
+                cur_Employee=v[i];
+                a=true;
+            }
+        }
+        count++;
+    }while (count<3 && a==false);
+    if (a==false){ cout<<"Khong ton tai nhan vien nay"<<endl;
+    main_menu();}
+    else cur_Employee.employee_menu();
+    return;
+}
 void main_menu(){
     cout<<" ------------------------------ "<<endl;
     cout<<"|        Menu dang nhap        |"<<endl;
@@ -71,24 +93,30 @@ void main_menu(){
     cout<<"1.Dang nhap"<<endl;
     cout<<"2.Dang ky"<<endl;
     cout<<"3.Dang nhap voi tu cach nhan vien"<<endl;
+    cout<<"4.Thoat"<<endl;
     cout<<"Moi lua chon:";
     int choice;cin>>choice;
     cin.ignore();
     switch (choice){
-    case 1:{
-        user_sign_in(current_User,User_List);
-        current_User.user_menu();
-        Warehouse tmp;
-        string address=current_User.getAddress();
-        a=tmp.Find_by_Address(Warehouse_List,address);
-        a.ProductList(inWarehouse);
-        break;
+        case 1:{
+            user_sign_in(current_User,User_List);
+            current_User.user_menu();
+            Warehouse tmp;
+            string address=current_User.getAddress();
+            a=tmp.Find_by_Address(Warehouse_List,address);
+            a.ProductList(inWarehouse);
+            break;
+        }
+        case 2:
+            sign_up(User_List);
+            break;
+        case 3:
+            employee_sign_in(current_Employee,Employee_List);
+            break;
+        case 4:{
+            return;
+            break;
+        }
     }
-    case 2:
-        sign_up(User_List);
-        break;
-    case 3:
-        employee_sign_in();
-        break;
-    }
+    return;
 }

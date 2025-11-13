@@ -1,1 +1,9 @@
-k2f,kldsffjd,slfka,23
+P001,Chuot Logitech G102,Thiet bi ngoai vi,350000,26,20
+P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,14,22
+P003,Man hinh Dell 24 inch,Man hinh,3500000,21,32
+P004,Tai nghe Sony WH1000XM4,Am thanh,4900000,44,100
+P005,USB Kingston 32GB,Phu kien,250000,10,20
+P001,Chuot Logitech G102,Thiet bi ngoai vi,350000,26,20
+P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,36,36
+P003,Man hinh Dell 24 inch,Man hinh,3500000,36,40
+1,opa,ops,10,0,14

@@ -63,33 +63,70 @@ void CustomerOrder::Create_Order(const Vector <Product> &p ,Vector <CustomerOrde
     newOrder.id=v.getsize();
     newOrder.customerID=current_User.GetID();
     string date;
-    cout<<"Nhap ngay thang nam(dd/mm/yyyy)";cin>>date;
+    cout<<"Nhap ngay thang nam(dd/mm/yyyy):";getline(cin,date);
     newOrder.orderDate=date;
     ds:
-    cout<<"Nhap danh sach san pham va so luong muon mua";
-    cout<<"Nhap 0 de ket thuc";
+    cout<<"Nhap danh sach san pham va so luong muon mua\n";
+    cout<<"Nhap 0 de ket thuc\n";
+
     int stt,slg,slg_max;
     do{
-        cout<<"Nhap so thu tu san pham:";cin>>stt;
+        cout<<"Nhap so thu tu san pham: ";cin>>stt;cin.ignore();
         if (stt==0) break;
         Product pr =p[stt-1];
         slg_max=a.Get_Quantity(pr.Get_ID());
-        cout<<pr.Get_Name()<<pr.Get_price()<<slg_max;
+        cout<<"Ten san pham: "<<pr.Get_Name()<<"Gia: "<<pr.Get_price()<<"So luong: "<<slg_max<<endl;
         do {
-        cout<<"Nhap so luong san pham can mua:"; 
-        cin>>slg;
+        cout<<"Nhap so luong san pham can mua: "; 
+        cin>>slg;cin.ignore();
         }while (slg>slg_max && slg<0);
         newOrder.productList.push_back(pr.Get_ID(),slg);
     }while (stt!=0);
     if (newOrder.productList.Get_Size()==0){
         cout <<"Chua co san pham nao duoc tao.Tro ve menu chinh?(Y/N)";
         char choice;
-        cin>>choice;
+        cin>>choice;cin.ignore();
         choice=toupper(choice);
         if (choice=='N') goto ds;
-       // else //;
+        else {
+            User tmp_u;
+            tmp_u.user_menu();
+        }
     }
-    v.push_back(newOrder);
-    cout<<"Da tao don hang thanh cong\n";
+    char c;
+    cout<<"Xac nhan thanh toan?(Y/N)";cin>>c;cin.ignore();c=toupper(c);
+    if (c=='Y'){    
+        for (int i=0;i<newOrder.productList.Get_Size();i++){
+            string s=newOrder.productList.getKey(i);
+            int slg=newOrder.productList.getValue(i);
+            Product tmp,p=tmp.Find_byid(s,Product_List);
+            p.Add_sold(slg);
+            a.Remove_Product(s,slg);
+        }
+        v.push_back(newOrder);
+        cout<<"Da tao don hang thanh cong\n";
+    }else{
+        cout<<"Tro ve menu\n";
+        User u;
+        u.user_menu();
+        return;
+    }
     return;
+}
+void CustomerOrder::order_by(const User& cur, const Vector <CustomerOrder>& v,Vector <CustomerOrder>&result){
+    for (int i=0;i<v.getsize();i++){
+        if (v[i].customerID==cur.GetID()) result.push_back(v[i]);
+    }
+    return;
+}
+void CustomerOrder::show() const{
+    cout<<this->orderDate;
+    for (int i=0;i<this->productList.Get_Size();i++){
+        Product tmp;
+        string idproduct=this->productList.getKey(i);
+        Product p=tmp.Find_byid(idproduct,Product_List);
+        cout<<"Ten san pham:"<<p.Get_Name()<<"So luong:"<<this->productList.getValue(i);
+    }
+    cout<<this->sum;
+    cout<<"\n";
 }

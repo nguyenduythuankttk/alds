@@ -17,6 +17,7 @@ class User:public Person{
         void readfile(Vector<User> &);
         void savefile(const Vector<User> &) const;
         int GetID() const;
-        void user_menu();
-
+        void user_menu() const;
+        bool find_by_id(const int&) const;
+        User& id(const int&) const;
 };

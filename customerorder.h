@@ -23,6 +23,7 @@ class CustomerOrder {
         void readFile(Vector<CustomerOrder>&);
         void saveFile(const Vector<CustomerOrder>&) const;
         void Create_Order(const Vector <Product> &,Vector <CustomerOrder>&);
+        void order_by(const User&, const Vector <CustomerOrder>&,Vector <CustomerOrder>&);
         void show() const;
         
 };

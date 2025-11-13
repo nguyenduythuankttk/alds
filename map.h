@@ -10,6 +10,8 @@ class Map{
     public:
         Map(const int& =100);
         ~Map();
+        Map(const Map<T,U>&);
+        Map<T,U>& operator=(const Map<T,U>&);
         int Get_Size() const;
         void push_back(const T&,const U&);
         bool Is_Empty() const;
@@ -24,6 +26,32 @@ Map<T,U>::Map(const int& capacity):capacity(capacity){
     this->data=new U[capacity];
     this->key=new T[capacity];
     this->cur=0;
+}
+template <typename T, typename U>
+Map<T,U>::Map(const Map<T,U>& other) {
+    capacity = other.capacity;
+    cur = other.cur;
+    key = new T[capacity];
+    data = new U[capacity];
+    for (int i = 0; i < cur; i++) {
+        key[i] = other.key[i];
+        data[i] = other.data[i];
+    }
+}
+template <typename T, typename U>
+Map<T,U>& Map<T,U>::operator=(const Map<T,U>& other) {
+    if (this == &other) return *this;
+    delete[] key;
+    delete[] data;
+    capacity = other.capacity;
+    cur = other.cur;
+    key = new T[capacity];
+    data = new U[capacity];
+    for (int i = 0; i < cur; i++) {
+        key[i] = other.key[i];
+        data[i] = other.data[i];
+    }
+    return *this;
 }
 template <typename T,typename U>
 Map<T,U>::~Map(){
@@ -45,26 +73,24 @@ U& Map<T,U>::Find_key(const T& Key) const{
     cout<<"Not found";
     return *(new U);
 }
-template <typename T,typename U>
-void Map<T,U>::push_back(const T& Key,const U& Data){
-    *(this->key+this->cur)=Key;
-    *(this->data+this->cur)=Data;
-    this->cur++;
-    if (this->cur==this->capacity) {
-        T *tmp_key=new T[this->capacity];
-        U *tmp_data=new U[this->capacity];
-        for (int i=0;i<this->capacity;i++){
-            *(tmp_key+i)=*(this->key+i);
-            *(tmp_data+i)=*(this->data+i);
+template <typename T, typename U>
+void Map<T,U>::push_back(const T& k, const U& v) {
+    if (cur == capacity) {
+        capacity *= 2;
+        T* newKey = new T[capacity];
+        U* newdata = new U[capacity];
+        for (int i = 0; i < cur; i++) {
+            newKey[i] = key[i];
+            newdata[i] = data[i];
         }
-        delete[] this->data;
-        delete[] this->key;
-        this->capacity*=2;
-        this->data=new U[this->capacity];
-        this->key=new T[this->capacity];
-        delete[] tmp_key;
-        delete[] tmp_data;
+        delete[] key;
+        delete[] data;
+        key = newKey;
+        data = newdata;
     }
+    key[cur] = k;
+    data[cur] = v;
+    cur++;
 }
 template <typename T,typename U>
 T& Map<T,U>::getKey( int index) const {

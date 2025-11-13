@@ -31,10 +31,11 @@ void Warehouse::readfile(Vector <Warehouse> &v){
 void Warehouse::savefile(const Vector<Warehouse> &v){
     ofstream file("warehouse.txt");
     for (int i=0;i<v.getsize();i++){
-        file<<v[i].id<<","<<v[i].name<<","<<v[i].address<<"\n";
+        file<<v[i].id<<","<<v[i].name<<","<<v[i].address;
         for (int j=0;j<v[i].Inventory.Get_Size();j++) {
             file<<",("<<v[i].Inventory.getKey(j)<<";"<<v[i].Inventory.getValue(j)<<")";
         }
+        file<<"\n";
     }
 }
 Warehouse& Warehouse::Find_by_id(const int& id,const Vector<Warehouse>& v){
@@ -52,17 +53,28 @@ int Warehouse::Get_Quantity(const string& productID) const{
 void Warehouse::Add_Product(const string& productID, const int &qty){
     for (int i=0;i<Inventory.Get_Size();i++){
         if (Inventory.getKey(i)==productID) {
-            Inventory.addValue(i,qty);
+            int &value=Inventory.getValue(i);
+            value+=qty;
             return;
         }
     }
     Inventory.push_back(productID,qty); 
+    for (int i=0;i<Warehouse_List.getsize();i++){
+        if (this->id==Warehouse_List[i].id) {
+            Warehouse_List[i]=*(this);
+        }
+    }
 }
 void Warehouse::Remove_Product(const string& productID, const int &qty){
     for (int i=0;i<Inventory.Get_Size();i++){
         if (Inventory.getKey(i)==productID) {
-            Inventory.removeValue(i,qty);
-            return;
+            int &value=Inventory.getValue(i);
+            value-=qty;
+        }
+    }
+    for (int i=0;i<Warehouse_List.getsize();i++){
+        if (this->id==Warehouse_List[i].id) {
+            Warehouse_List[i]=*(this);
         }
     }
 }
@@ -79,9 +91,6 @@ void Warehouse::ProductList(Vector<Product>& inWarehouse ) {
         inWarehouse.push_back(temp);
     }
 }
-int Warehouse::Get_quantity(const string&ID) const{
-    for (int i=0;i<this->Inventory.Get_Size();i++){
-        if (this->Inventory.getKey(i)==ID) return Inventory.getValue(i);
-    }
-    return 0;
-}
+
+string Warehouse::Get_Name() const{return this->name;}
+int Warehouse::Get_Inventory_size() const{return this->Inventory.Get_Size();}
