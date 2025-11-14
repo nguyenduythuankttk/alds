@@ -20,6 +20,7 @@ class Map{
         U& getValue(int) const;
         void addValue(int,int);
         void removeValue(int,int);
+        void remove_at(int);
 };
 template <typename T,typename U>
 Map<T,U>::Map(const int& capacity):capacity(capacity){
@@ -107,4 +108,15 @@ void Map<T,U>::addValue(int index,int value){
 template <typename T,typename U>
 void Map<T,U>::removeValue(int index,int value){
     this->data[index]-=value;
+}
+template <typename T,typename U>
+void Map<T,U>::remove_at(int index){
+    if (index==this->Get_Size()-1) this->cur--;
+    else{
+        for (int i=index;i<this->Get_Size()-1;i++) {
+            this->data[i]=this->data[i+1];
+            this->key[i]=this->key[i+1];
+        }
+        this->cur--;
+    }
 }

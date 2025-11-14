@@ -25,5 +25,6 @@ class CustomerOrder {
         void Create_Order(const Vector <Product> &,Vector <CustomerOrder>&);
         void order_by(const User&, const Vector <CustomerOrder>&,Vector <CustomerOrder>&);
         void show() const;
-        
+        void order_date(const Vector<CustomerOrder>&,Vector<CustomerOrder>&,const string&) const;
+        int getsum() const;
 };

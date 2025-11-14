@@ -70,6 +70,7 @@ void Warehouse::Remove_Product(const string& productID, const int &qty){
         if (Inventory.getKey(i)==productID) {
             int &value=Inventory.getValue(i);
             value-=qty;
+            if (value<=0) Inventory.remove_at(i);
         }
     }
     for (int i=0;i<Warehouse_List.getsize();i++){
@@ -78,10 +79,12 @@ void Warehouse::Remove_Product(const string& productID, const int &qty){
         }
     }
 }
-Warehouse& Warehouse::Find_by_Address(const Vector<Warehouse>& v,const string& address) const {
-    for (int i=0;i<v.getsize();i++) 
-        if (address==v[i].address) return v[i];
-    return v[0];
+Warehouse& Warehouse::Find_by_Address(const Vector<Warehouse>& v, const string& address) const {
+    for (int i = 0; i < v.getsize(); i++) {
+        if (address == v[i].address)
+            return const_cast<Warehouse&>(v[i]); 
+    }
+    throw runtime_error("Warehouse not found for this address!");
 }
 void Warehouse::ProductList(Vector<Product>& inWarehouse ) {
     for (int i=0;i<this->Inventory.Get_Size();i++){
@@ -94,3 +97,6 @@ void Warehouse::ProductList(Vector<Product>& inWarehouse ) {
 
 string Warehouse::Get_Name() const{return this->name;}
 int Warehouse::Get_Inventory_size() const{return this->Inventory.Get_Size();}
+string Warehouse::Get_Product_id(const int &i) const{
+    return this->Inventory.getKey(i);
+}

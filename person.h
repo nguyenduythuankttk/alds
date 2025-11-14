@@ -5,6 +5,7 @@ class Person{
     protected:
         string username;
         string password;
+        string address;
     public:
         Person();
         Person(const string&,const string&);
@@ -13,6 +14,7 @@ class Person{
         string Getpassword() const;
         void Setusername(const string&);
         void Setpassword(const string&);
+        
         
 };
 

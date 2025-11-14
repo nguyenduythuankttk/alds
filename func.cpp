@@ -39,7 +39,7 @@ void user_sign_in(User &cur_User,Vector <User>&v){
     string username,password;
     int count;
     count =0;
-    bool a=false;
+    bool b=false;
     do{
         cout<<"Nhap ten dang nhap:";
         getline(cin,username);
@@ -48,11 +48,11 @@ void user_sign_in(User &cur_User,Vector <User>&v){
         for (int i=0;i<v.getsize();i++){
             if (v[i].Getpassword()==password && v[i].Getusername()==username){
                 cur_User=v[i];
-                a=true;
+                b=true;
             }
         }
         count++;
-    }while (count<3 && a==false);
+    }while (count<3 && b==false);
     if (count>=3){
         char c;
         cout<<"Tai khoan chua ton tai.Tao tai khoan?(Y/N)";cin>>c;cin.ignore();
@@ -62,12 +62,15 @@ void user_sign_in(User &cur_User,Vector <User>&v){
         return;
     }
     cout<<"Da dang nhap thanh cong!\n";
+    Warehouse tmp;
+    a=tmp.Find_by_Address(Warehouse_List,cur_User.getAddress());
+    a.ProductList(inWarehouse);
 }
 void employee_sign_in(Employee &cur_Employee,const Vector<Employee>& v){
         string username,password;
     int count;
     count =0;
-    bool a=false;
+    bool b=false;
     do{
         cout<<"Nhap ten dang nhap:";
         getline(cin,username);
@@ -76,15 +79,14 @@ void employee_sign_in(Employee &cur_Employee,const Vector<Employee>& v){
         for (int i=0;i<v.getsize();i++){
             if (v[i].Getpassword()==password && v[i].Getusername()==username){
                 cur_Employee=v[i];
-                a=true;
+                b=true;
             }
         }
         count++;
-    }while (count<3 && a==false);
-    if (a==false){ cout<<"Khong ton tai nhan vien nay"<<endl;
+    }while (count<3 && b==false);
+    if (b==false){ cout<<"Khong ton tai nhan vien nay"<<endl;
     main_menu();}
     else cur_Employee.employee_menu();
-    return;
 }
 void main_menu(){
     cout<<" ------------------------------ "<<endl;

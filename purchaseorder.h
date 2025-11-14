@@ -19,4 +19,6 @@ class PurchaseOrder{
         void Savefile(const Vector <PurchaseOrder>&);
         void create_PurchaseOrder(Vector<PurchaseOrder>&);
         void show() const;
+        void order_date(const Vector<PurchaseOrder>&,Vector<PurchaseOrder>&,const string&) const;
+        int getsum()const;
 };

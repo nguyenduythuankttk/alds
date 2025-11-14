@@ -25,5 +25,6 @@ class Warehouse{
         Warehouse& Find_by_Address(const Vector<Warehouse>&,const string&) const;
         void ProductList(Vector<Product>&) ;
         int Get_Inventory_size() const;
+        string Get_Product_id(const int&) const;
         
 };

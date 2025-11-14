@@ -10,6 +10,7 @@ CustomerOrder::CustomerOrder(){
     this->id=0;
     this->customerID=0;
     this->orderDate="";
+    this->sum=0;
 }
 CustomerOrder::CustomerOrder(const int& id,const int &userID,const string &date){
     this->id=id;
@@ -24,13 +25,15 @@ CustomerOrder::CustomerOrder(const CustomerOrder& other){
 CustomerOrder::~CustomerOrder(){}
 void CustomerOrder::readFile(Vector <CustomerOrder>& v){
     ifstream file("order.txt");
-    string s;
+    string sv;
     int i;
     CustomerOrder c;
-    while (getline(file,s)){
-        if (s=="") continue;
+    while (getline(file,sv)){
+        if (sv=="") continue;
         i=0;
-        stringstream sub(s);
+        CustomerOrder c;
+        stringstream sub(sv);
+        string s;
         while (getline(sub,s,',')){
             if (s=="") continue;
             if (i==0) c.id=stoi(s);
@@ -79,6 +82,7 @@ void CustomerOrder::Create_Order(const Vector <Product> &p ,Vector <CustomerOrde
         do {
         cout<<"Nhap so luong san pham can mua: "; 
         cin>>slg;cin.ignore();
+        this->sum+=pr.Get_price()*slg;
         }while (slg>slg_max && slg<0);
         newOrder.productList.push_back(pr.Get_ID(),slg);
     }while (stt!=0);
@@ -119,14 +123,33 @@ void CustomerOrder::order_by(const User& cur, const Vector <CustomerOrder>& v,Ve
     }
     return;
 }
-void CustomerOrder::show() const{
-    cout<<this->orderDate;
-    for (int i=0;i<this->productList.Get_Size();i++){
+void CustomerOrder::show() const {
+    cout << "Hoa don:\n" << this->orderDate << endl;
+    for (int i = 0; i < this->productList.Get_Size(); i++) {
+        string idproduct = this->productList.getKey(i);
+        int quantity = this->productList.getValue(i);
+
         Product tmp;
-        string idproduct=this->productList.getKey(i);
-        Product p=tmp.Find_byid(idproduct,Product_List);
-        cout<<"Ten san pham:"<<p.Get_Name()<<"So luong:"<<this->productList.getValue(i);
+        try {
+            Product p = tmp.Find_byid(idproduct, Product_List);
+            cout << "Ten san pham: " << p.Get_Name()
+                 << " | So luong: " << quantity
+                 << " | Gia: " << p.Get_price() << endl;
+        }
+        catch (const runtime_error&) {
+            cout << "[Canh bao] San pham ID=" << idproduct
+                 << " khong ton tai trong danh sach san pham."
+                 << " | So luong: " << quantity << endl;
+        }
     }
-    cout<<this->sum;
-    cout<<"\n";
+    cout << "Tong tien: " << this->sum << endl;
+}
+
+void CustomerOrder::order_date(const Vector<CustomerOrder>& v,Vector<CustomerOrder>&r,const string&date) const{
+    for (int i=0;i<v.getsize();i++)
+        if (v[i].orderDate==date) r.push_back(v[i]);
+    return;
+}
+int CustomerOrder::getsum() const{
+    return this->sum;
 }

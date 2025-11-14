@@ -1,2 +1,2 @@
-1,Kho Ha Noi,Da Nang,(P001;97),(P002;45),(P003;60),(1;14)
+1,Kho Ha Noi,Da Nang,(P001;100),(P002;41),(P003;60),(P005;231)
 2,Kho TP HCM,Ho Chi Minh,(P001;200),(P004;80),(P005;150)

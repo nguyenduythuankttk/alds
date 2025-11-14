@@ -102,3 +102,9 @@ void PurchaseOrder::show() const{
     }
     cout<<"Tong tien:"<<this->sum<<"\n";
 }
+void PurchaseOrder::order_date(const Vector<PurchaseOrder>&v ,Vector<PurchaseOrder>&r,const string& date) const{
+    for (int i=0;i<v.getsize();i++)
+        if (v[i].date==date) r.push_back(v[i]);
+    return;
+}   
+int PurchaseOrder::getsum() const{return this->sum;}

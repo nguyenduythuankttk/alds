@@ -1,5 +1,6 @@
 #pragma once
 #include "library.h"
+#include <string>
 using namespace std;
 class Product {
     private:
@@ -9,10 +10,12 @@ class Product {
         int price;
         int sold;
         int bought;
+        string last_bought;
+        string last_sold;
 
     public:
         Product();
-        Product(const string&, const string&, const int&, const string&,const int&,const int&);
+        Product(const string&, const string&, const int&, const string&,const int&,const int&,const string&,const string&);
         Product(const Product&);
         ~Product();
 
@@ -22,6 +25,11 @@ class Product {
         string Get_Cat() const;
         int Get_Bought() const;
         int Get_Sold() const;
+        string Get_last_bought() const;
+        string Get_last_sold() const;
+
+        void Set_price(const int&);
+
 
         void Add_bought(const int&); 
         void Add_sold(const int&);
@@ -33,8 +41,9 @@ class Product {
         void Find_product(const Vector<Product>&, Vector<Product>&,const string&,const string&, int&,int&);
         void All_product(const Vector<Product>&, Vector<Product>&);
         void Show(const Vector<Product>&);
+        void showinfo() const;
         void Add_Product(Vector<Product>&, const string&);
         Product& Find_byid(const string&, const Vector<Product>&);
-
+        void sx(const Vector<Product>& ,Vector <Product>&);
     };
 

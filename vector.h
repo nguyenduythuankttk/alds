@@ -14,6 +14,7 @@ class Vector{
         Vector<T>& operator=(const Vector<T>&);
         void push_back(const T&);
         T& operator[](const int&) const;
+        T operator()(const int&) const;
         //T& operator=(const T&);
         void Erase();
         int getsize() const;
@@ -72,4 +73,11 @@ void Vector<T>::Erase(){
 template <typename T>
 int Vector<T>::getsize() const{
     return this->cur;
+}
+template <typename T>
+T Vector<T>::operator()(const int& i) const{
+    if (i>=0 && i<this->cur) return *(this->arr+i);
+    else {cout<<"out range";
+        return *(this->arr);
+    }
 }

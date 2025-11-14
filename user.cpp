@@ -2,6 +2,7 @@
 #include "product.h"
 #include "customerorder.h"
 #include "warehouse.h"
+#include <iomanip>
 User::User(){}
 User::User(const int&ID,const string& username,const string& password,const string &address):
     Person(username,password),userID(ID),address(address){}
@@ -54,20 +55,58 @@ void User::user_menu() const{
     cout<<" ------------------------------ "<<endl;
     cout<<"|             Menu             |"<<endl;
     cout<<" ------------------------------ "<<endl;
-    cout<<"1.Hien thi danh sach san pham"<<endl;
-    cout<<"2.Tim kiem san pham"<<endl;
-    cout<<"3.Tra cuu don hang "<<endl;
-    cout<<"4.Dang xuat"<<endl;
+    cout<<"1.Hien thi danh sach san pham noi bat"<<endl;
+    cout<<"2.Hien thi danh sach san pham"<<endl;
+    cout<<"3.Tim kiem san pham"<<endl;
+    cout<<"4.Tra cuu don hang "<<endl;
+    cout<<"5.Dang xuat"<<endl;
+    cout<<"Moi lua chon:";
     int choice;
     cin>>choice;cin.ignore();
     Product p;
     switch (choice){
         case 1: {
             Product p;
+            Vector<Product> list;
+            p.sx(Product_List, list);
             int lc;
-            Warehouse tmp;
-            a=tmp.Find_by_Address(Warehouse_List,current_User.address);
-            a.ProductList(inWarehouse);
+
+            cout << "\n=== SAN PHAM NOI BAT (TOP 5) ===\n";
+            if (list.getsize() == 0) {
+                cout << "Khong co san pham nao.\n";
+                break;
+            }
+
+            cout << left
+                << setw(50) << "Ten san pham"
+                << setw(50) << "Loai"
+                << setw(10) << "Gia"
+                << setw(10) << "Da ban"
+                << endl;
+            cout << string(10, '-') << endl;
+
+            for (int i = 0; i < min(list.getsize(), 5); i++) {
+                list[i].showinfo();
+            }
+            
+            
+            cout<<"1.Mua hang\n";
+            cout<<"2.Quay lai\n";
+            cout<<"Moi lua chon";cin>>lc;cin.ignore();
+            if (lc==2)  {
+                inWarehouse.Erase();
+               goto option;
+            }
+            else {
+                CustomerOrder c;
+                c.Create_Order(inWarehouse,CustomerOrder_List);
+            }
+            break;
+        }
+
+        case 2: {
+            Product p;
+            int lc;
             p.Show(inWarehouse);
             cout<<"1.Mua hang\n";
             cout<<"2.Quay lai\n";
@@ -84,7 +123,7 @@ void User::user_menu() const{
             goto option;
             break;
         }
-        case 2:{
+        case 3:{
             string name,category;
             int min,max;
             cout<<"Nhap thong tin san pham.Nhap '-1' de bo qua \n";
@@ -95,14 +134,12 @@ void User::user_menu() const{
             Product p;
             Vector <Product> result;
             Warehouse tmp;
-            a=tmp.Find_by_Address(Warehouse_List,current_User.address);
-            a.ProductList(inWarehouse);
             p.Find_product(inWarehouse,result,name,category,min,max);
             p.Show(result);
             int lc;
             cout<<"1.Mua hang\n";
             cout<<"2.Quay lai\n";
-            cout<<"Moi lua chon";cin>>lc;cin.ignore();
+            cout<<"Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2) {
                 inWarehouse.Erase();
                 goto option;
@@ -116,14 +153,19 @@ void User::user_menu() const{
             goto option;
             break;
         }
-        case 3: {
+        case 4: {
             Vector <CustomerOrder> result;
             CustomerOrder tmp;
             tmp.order_by(current_User,CustomerOrder_List,result);
-            tmp.show();
+            for (int i=0;i<result.getsize();i++){
+                result[i].show();
+            }
+            string s;
+            cout<<"Nhap phim bat ki de quay lai menu";getline(cin,s);
+            main_menu();
             break;
         }
-        case 4:{
+        case 5:{
             main_menu();
         }
     }
