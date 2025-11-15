@@ -55,13 +55,15 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder> &v){
 }
 void PurchaseOrder::Readfile(Vector <PurchaseOrder>& v){
     ifstream file("phieunhap.txt");
-    string s;
+    string sv;
     int i;
-    PurchaseOrder p;
-    while (getline(file,s)){
-        if (s=="") continue;
+
+    while (getline(file,sv)){
+        if (sv=="") continue;
         i=0;
-        stringstream sub(s);
+        string s;
+            PurchaseOrder p;
+        stringstream sub(sv);
         while (getline(sub,s,',')){
             if (s=="") continue;
             if (i==0) p.id=stoi(s);

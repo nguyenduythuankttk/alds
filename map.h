@@ -21,6 +21,7 @@ class Map{
         void addValue(int,int);
         void removeValue(int,int);
         void remove_at(int);
+        void clear();
 };
 template <typename T,typename U>
 Map<T,U>::Map(const int& capacity):capacity(capacity){
@@ -119,4 +120,12 @@ void Map<T,U>::remove_at(int index){
         }
         this->cur--;
     }
+}
+template <typename T,typename U>
+void Map<T,U>::clear(){
+    delete[] this->data;
+    delete[] this->key;
+    this->data= new U[this->capacity];
+    this->key=new T[this->capacity];
+    this->cur=0;
 }

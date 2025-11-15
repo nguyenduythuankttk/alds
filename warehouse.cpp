@@ -6,13 +6,16 @@ Warehouse::~Warehouse(){}
 Warehouse::Warehouse(const int&id, const string& name,const string& address):id(id),address(address),name(name){}
 void Warehouse::readfile(Vector <Warehouse> &v){
     ifstream file("warehouse.txt");
-    string s;
+    string sv;
     int i;
-    while (getline(file,s)){
-        if (s=="") continue;
+    while (getline(file,sv)){
+        if (sv=="") continue;
         Warehouse w;
-        stringstream sub(s);
+        w.Inventory = Map<string,int>();
+        w.Inventory.clear();
+        stringstream sub(sv);
         i=0;
+        string s;
         while (getline(sub,s,',')){
             if (i==0) w.id=stoi(s);
             else if (i==2) w.address=s;
@@ -38,7 +41,7 @@ void Warehouse::savefile(const Vector<Warehouse> &v){
         file<<"\n";
     }
 }
-Warehouse& Warehouse::Find_by_id(const int& id,const Vector<Warehouse>& v){
+Warehouse Warehouse::Find_by_id(const int& id,const Vector<Warehouse>& v){
     for (int i=0;i<v.getsize();i++ ){
         if (v[i].id==id) return v[i];
     }
@@ -79,7 +82,7 @@ void Warehouse::Remove_Product(const string& productID, const int &qty){
         }
     }
 }
-Warehouse& Warehouse::Find_by_Address(const Vector<Warehouse>& v, const string& address) const {
+Warehouse Warehouse::Find_by_Address(const Vector<Warehouse>& v, const string& address) const {
     for (int i = 0; i < v.getsize(); i++) {
         if (address == v[i].address)
             return const_cast<Warehouse&>(v[i]); 
