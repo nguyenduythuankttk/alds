@@ -90,6 +90,7 @@ Warehouse Warehouse::Find_by_Address(const Vector<Warehouse>& v, const string& a
     throw runtime_error("Warehouse not found for this address!");
 }
 void Warehouse::ProductList(Vector<Product>& inWarehouse ) {
+    inWarehouse.Erase();
     for (int i=0;i<this->Inventory.Get_Size();i++){
         Product p;
         string id=this->Inventory.getKey(i);

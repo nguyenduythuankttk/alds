@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <cstdlib>
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -24,6 +25,7 @@
     extern Employee current_Employee;
     extern Warehouse a;
 
+    void clear_screen();
     void main_menu();
     void sign_up(Vector <User>&);
     void user_sign_in(User &,Vector <User>&);

@@ -5,6 +5,7 @@
 #include "user.h"       
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include "library.h"
 CustomerOrder::CustomerOrder(){
     this->id=0;
@@ -69,23 +70,52 @@ void CustomerOrder::Create_Order(const Vector <Product> &p ,Vector <CustomerOrde
     cout<<"Nhap ngay thang nam(dd/mm/yyyy):";getline(cin,date);
     newOrder.orderDate=date;
     ds:
-    cout<<"Nhap danh sach san pham va so luong muon mua\n";
-    cout<<"Nhap 0 de ket thuc\n";
+    cout<<"Nhap tung dong theo dinh dang: <STT> <SoLuong>. Nhap 0 de ket thuc.\n";
+    cout<<"+--------------------------------+--------------------+\n";
+    cout<<"| STT san pham (0 = ket thuc)   | So luong           |\n";
+    cout<<"+--------------------------------+--------------------+\n";
 
-    int stt,slg,slg_max;
-    do{
-        cout<<"Nhap so thu tu san pham: ";cin>>stt;cin.ignore();
+    string row;
+    while (true){
+        cout<<"| ";
+        getline(cin,row);
+        if (row=="") continue;
+        if (row=="0") break;
+        stringstream ss(row);
+        int stt,slg;
+        if (!(ss>>stt)){
+            cout<<"[Thong bao] Du lieu khong hop le. Vui long nhap lai.\n";
+            continue;
+        }
         if (stt==0) break;
+        if (stt<1 || stt>p.getsize()){
+            cout<<"[Thong bao] STT khong ton tai.\n";
+            continue;
+        }
+        if (!(ss>>slg)){
+            cout<<"[Thong bao] Vui long nhap so luong sau STT.\n";
+            continue;
+        }
         Product pr =p[stt-1];
-        slg_max=a.Get_Quantity(pr.Get_ID());
-        cout<<"Ten san pham: "<<pr.Get_Name()<<"Gia: "<<pr.Get_price()<<"So luong: "<<slg_max<<endl;
-        do {
-        cout<<"Nhap so luong san pham can mua: "; 
-        cin>>slg;cin.ignore();
+        int slg_max=a.Get_Quantity(pr.Get_ID());
+        if (slg<=0 || slg>slg_max){
+            cout<<"[Thong bao] So luong hop le tu 1 den "<<slg_max<<".\n";
+            continue;
+        }
         this->sum+=pr.Get_price()*slg;
-        }while (slg>slg_max && slg<0);
         newOrder.productList.push_back(pr.Get_ID(),slg);
-    }while (stt!=0);
+
+        cout<<"\nDanh sach san pham da chon:\n";
+        cout<<"+--------------------------------+--------------------+\n";
+        cout<<"| Ma san pham                   | So luong           |\n";
+        cout<<"+--------------------------------+--------------------+\n";
+        for (int idx=0; idx<newOrder.productList.Get_Size(); idx++){
+            cout<<"| "<<left<<setw(30)<<newOrder.productList.getKey(idx)
+                <<"| "<<setw(18)<<newOrder.productList.getValue(idx)<<"|\n";
+        }
+        cout<<"+--------------------------------+--------------------+\n";
+        cout<<right;
+    }
     if (newOrder.productList.Get_Size()==0){
         cout <<"Chua co san pham nao duoc tao.Tro ve menu chinh?(Y/N)";
         char choice;
@@ -124,25 +154,63 @@ void CustomerOrder::order_by(const User& cur, const Vector <CustomerOrder>& v,Ve
     return;
 }
 void CustomerOrder::show() const {
-    cout << "Hoa don:\n" << this->orderDate << endl;
+    clear_screen();
+    cout << "\n===== HOA DON #" << this->id << " =====\n";
+    cout << "Ngay lap: " << this->orderDate << endl;
+
+    if (this->productList.Get_Size() == 0) {
+        cout << "[Thong bao] Don hang khong co san pham.\n";
+        cout << "Tong tien: " << this->sum << endl;
+        return;
+    }
+
+    cout << left
+         << setw(5) << "STT"
+         << setw(12) << "Ma SP"
+         << setw(40) << "Ten san pham"
+         << setw(10) << "So luong"
+         << setw(12) << "Gia"
+         << setw(15) << "Thanh tien"
+         << endl;
+    cout << string(94, '-') << endl;
+
+    long long calculated = 0;
     for (int i = 0; i < this->productList.Get_Size(); i++) {
         string idproduct = this->productList.getKey(i);
         int quantity = this->productList.getValue(i);
 
-        Product tmp;
+        string productName = "[Khong tim thay]";
+        int unitPrice = 0;
+
+        Product finder;
         try {
-            Product p = tmp.Find_byid(idproduct, Product_List);
-            cout << "Ten san pham: " << p.Get_Name()
-                 << " | So luong: " << quantity
-                 << " | Gia: " << p.Get_price() << endl;
+            Product p = finder.Find_byid(idproduct, Product_List);
+            productName = p.Get_Name();
+            unitPrice = p.Get_price();
         }
         catch (const runtime_error&) {
-            cout << "[Canh bao] San pham ID=" << idproduct
-                 << " khong ton tai trong danh sach san pham."
-                 << " | So luong: " << quantity << endl;
+            // Keep default values but note missing product
+            productName += " (ID: " + idproduct + ")";
         }
+
+        long long lineTotal = static_cast<long long>(unitPrice) * quantity;
+        calculated += lineTotal;
+
+        cout << left
+             << setw(5) << i + 1
+             << setw(12) << idproduct
+             << setw(40) << productName
+             << setw(10) << quantity
+             << setw(12) << unitPrice
+             << setw(15) << lineTotal
+             << endl;
     }
-    cout << "Tong tien: " << this->sum << endl;
+
+    cout << string(94, '-') << endl;
+    cout << left << setw(79) << "Tong tien" << calculated << endl;
+    if (calculated != this->sum) {
+        cout << "[Luu y] Tong tien luu tru: " << this->sum << endl;
+    }
 }
 
 void CustomerOrder::order_date(const Vector<CustomerOrder>& v,Vector<CustomerOrder>&r,const string&date) const{

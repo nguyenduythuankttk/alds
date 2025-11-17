@@ -52,15 +52,17 @@ int User::GetID() const{
 }
 void User::user_menu() const{
     option:
-    cout<<" ------------------------------ "<<endl;
-    cout<<"|             Menu             |"<<endl;
-    cout<<" ------------------------------ "<<endl;
-    cout<<"1.Hien thi danh sach san pham noi bat"<<endl;
-    cout<<"2.Hien thi danh sach san pham"<<endl;
-    cout<<"3.Tim kiem san pham"<<endl;
-    cout<<"4.Tra cuu don hang "<<endl;
-    cout<<"5.Dang xuat"<<endl;
-    cout<<"Moi lua chon:";
+    clear_screen();
+    cout << "\n==============================================\n";
+    cout << "|                MENU NGUOI DUNG             |\n";
+    cout << "==============================================\n";
+    cout << "| 1 | San pham noi bat                       |\n";
+    cout << "| 2 | Danh sach san pham                     |\n";
+    cout << "| 3 | Tim kiem san pham                      |\n";
+    cout << "| 4 | Tra cuu don hang                       |\n";
+    cout << "| 5 | Dang xuat                              |\n";
+    cout << "----------------------------------------------\n";
+    cout << "Moi lua chon (1-5): ";
     int choice;
     cin>>choice;cin.ignore();
     Product p;
@@ -78,15 +80,23 @@ void User::user_menu() const{
             }
 
             cout << left
-                << setw(50) << "Ten san pham"
-                << setw(50) << "Loai"
-                << setw(10) << "Gia"
+                << setw(5) << "STT"
+                << setw(30) << "Ten san pham"
+                << setw(20) << "Loai"
+                << setw(12) << "Gia"
                 << setw(10) << "Da ban"
                 << endl;
-            cout << string(10, '-') << endl;
+            cout << string(77, '-') << endl;
 
-            for (int i = 0; i < min(list.getsize(), 5); i++) {
-                list[i].showinfo();
+            int limit = min(list.getsize(), 5);
+            for (int i = 0; i < limit; i++) {
+                cout << left
+                     << setw(5) << i + 1
+                     << setw(30) << list[i].Get_Name()
+                     << setw(20) << list[i].Get_Cat()
+                     << setw(12) << list[i].Get_price()
+                     << setw(10) << list[i].Get_Sold()
+                     << endl;
             }
             
             

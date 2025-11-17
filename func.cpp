@@ -5,7 +5,18 @@
 #include "employee.h"     
 #include "purchaseorder.h"
 #include "customerorder.h"
+#include <thread>
+#include <chrono>
 using namespace std;
+
+void clear_screen(){
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
 void sign_up(Vector <User>&v){
     string name,password,confirm_password;
     User u;
@@ -89,14 +100,16 @@ void employee_sign_in(Employee &cur_Employee,const Vector<Employee>& v){
     else cur_Employee.employee_menu();
 }
 void main_menu(){
-    cout<<" ------------------------------ "<<endl;
-    cout<<"|        Menu dang nhap        |"<<endl;
-    cout<<" ------------------------------ "<<endl;
-    cout<<"1.Dang nhap"<<endl;
-    cout<<"2.Dang ky"<<endl;
-    cout<<"3.Dang nhap voi tu cach nhan vien"<<endl;
-    cout<<"4.Thoat"<<endl;
-    cout<<"Moi lua chon:";
+    clear_screen();
+    cout << "\n========================================\n";
+    cout << "|             MENU DANG NHAP           |\n";
+    cout << "========================================\n";
+    cout << "| 1 | Dang nhap nguoi dung             |\n";
+    cout << "| 2 | Dang ky tai khoan                |\n";
+    cout << "| 3 | Dang nhap voi tu cach nhan vien  |\n";
+    cout << "| 4 | Thoat chuong trinh               |\n";
+    cout << "----------------------------------------\n";
+    cout << "Moi lua chon (1-4): ";
     int choice;cin>>choice;
     cin.ignore();
     switch (choice){

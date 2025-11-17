@@ -60,28 +60,29 @@ void Product::All_product(const Vector<Product>& v, Vector<Product>& n) {
 }
 
 void Product::Show(const Vector<Product>& v) {
+    clear_screen();
     if (v.getsize() == 0) {
         cout << "[Thong bao] Danh sach san pham trong." << endl;
         return;
     }
 
     cout << left
-         << setw(3) << "STT"
-         << setw(10) <<"ID"
-         << setw(50) << "Ten san pham"
-         << setw(50) << "Loai"
-         << setw(10) << "Gia"
+         << setw(4) << "STT"
+         << setw(12) <<"ID"
+         << setw(30) << "Ten san pham"
+         << setw(20) << "Loai"
+         << setw(12) << "Gia"
          << setw(10) << "Da ban"
          << endl;
-    cout << string(113, '-') << endl;
+    cout << string(100, '-') << endl;
 
     for (int i = 0; i < v.getsize(); i++) {
         cout << left
-             << setw(3) << i+1
-             <<setw(10) <<v[i].id
-             << setw(50) << v[i].Get_Name()
-             << setw(50) << v[i].Get_Cat()
-             << setw(10) << v[i].Get_price()
+             << setw(4) << i+1
+             << setw(12) << v[i].id
+             << setw(30) << v[i].Get_Name()
+             << setw(20) << v[i].Get_Cat()
+             << setw(12) << v[i].Get_price()
              << setw(10) << v[i].Get_Sold()
              << endl;
     }
@@ -89,9 +90,9 @@ void Product::Show(const Vector<Product>& v) {
 
 void Product::showinfo() const {
     cout << left 
-         << setw(50) << this->name
-         << setw(50) << this->category
-         << setw(10) << this->price
+         << setw(30) << this->name
+         << setw(20) << this->category
+         << setw(12) << this->price
          << setw(10) << this->sold
          << endl;
 }
@@ -135,17 +136,31 @@ void Product::readfile(Vector<Product>& v) {
 }
 
 void Product::Add_Product(Vector<Product>& v, const string& ID) {
+    cout << "\n===== THEM SAN PHAM MOI =====\n";
+    this->id = ID;
     cout << "Nhap ten san pham: ";
     getline(cin, this->name);
     cout << "Nhap loai san pham: ";
     getline(cin, this->category);
-    this->id = ID;
     cout << "Nhap gia: ";
     cin >> this->price;
     cin.ignore();
     this->bought=0;
     this->sold=0;
     v.push_back(*this);
+
+  /*  cout << "\nThong tin san pham vua them:\n";
+    cout << "+--------------------------------+------------------------------+\n";
+    cout << "| Truong                         | Gia tri                      |\n";
+    cout << "+--------------------------------+------------------------------+\n";
+    cout << "| Ma san pham                    | " << left << setw(28) << this->id << "|\n";
+    cout << "| Ten san pham                   | " << left << setw(28) << this->name << "|\n";
+    cout << "| Loai san pham                  | " << left << setw(28) << this->category << "|\n";
+    cout << "| Gia (VND)                      | " << left << setw(28) << this->price << "|\n";
+    cout << "| Da nhap                        | " << left << setw(28) << this->bought << "|\n";
+    cout << "| Da ban                         | " << left << setw(28) << this->sold << "|\n";
+    cout << "+--------------------------------+------------------------------+\n";
+    cout << right;*/
 }
 
 /*bool Product::operator<(const Product& p) const {
@@ -177,6 +192,3 @@ void Product::sx(const Vector<Product> &v,Vector <Product> &r){
             }
         }
 }
-
-
-

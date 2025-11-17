@@ -47,18 +47,20 @@ void Employee::setEmployeeID(const int& ID) {
 int Employee::getEmployeeID() const{return this->employeeID;}
 void Employee::employee_menu() const{
     menu:
-    cout<<" ------------------------------ "<<endl;
-    cout<<"|             Menu             |"<<endl;
-    cout<<" ------------------------------ "<<endl;
-    cout<<"1.Tra cuu don hang nguoi dung"<<endl;
-    cout<<"2.Nhap phieu"<<endl;
-    cout<<"3.Xem danh sach nhan vien"<<endl;
-    cout<<"4.Xem danh sach san pham noi bat"<<endl;
-    cout<<"5.Thong ke don hang trong ngay"<<endl;
-    cout<<"6.Xem danh sach don hang ton kho"<<endl;
-    cout<<"7.Xem danh sach san pham can nhap them"<<endl;
-    cout<<"8.Dieu chinh gia ban san pham"<<endl;
-    cout<<"9.Dang xuat"<<endl;
+    clear_screen();
+    cout << "\n====================================================\n";
+    cout << "|                 MENU NHAN VIEN                   |\n";
+    cout << "====================================================\n";
+    cout << "| 1 | Tra cuu don hang nguoi dung                  |\n";
+    cout << "| 2 | Tao phieu nhap                               |\n";
+    cout << "| 3 | Xem danh sach nhan vien                      |\n";
+    cout << "| 4 | San pham noi bat                             |\n";
+    cout << "| 5 | Thong ke don hang trong ngay                 |\n";
+    cout << "| 6 | Danh sach don hang ton kho                   |\n";
+    cout << "| 7 | San pham can nhap them                       |\n";
+    cout << "| 8 | Dieu chinh gia ban san pham                  |\n";
+    cout << "| 9 | Dang xuat                                    |\n";
+    cout << "----------------------------------------------------\n";
     int lc;
     cout<<"Moi lua chon:";cin>>lc;cin.ignore();
     switch (lc){
@@ -146,7 +148,7 @@ void Employee::employee_menu() const{
                 sum1+=r1[i].getsum();
             }
             cout<<"Tong tien trong ngay:"<<sum1<<endl;
-            cout<<"Hoa don:"<<endl;
+            //cout<<"Hoa don:"<<endl;
             c1.order_date(CustomerOrder_List,r2,date);
             for (int i=0;i<r2.getsize();i++){
                 r2[i].show();
@@ -158,7 +160,7 @@ void Employee::employee_menu() const{
             break;
         }
         case 6:{
-            
+            break;
         }
         case 7:{
             int id;
