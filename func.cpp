@@ -7,6 +7,9 @@
 #include "customerorder.h"
 #include <thread>
 #include <chrono>
+#include <algorithm>
+#include <sstream>
+#include <iostream>
 using namespace std;
 
 void clear_screen(){
@@ -134,4 +137,24 @@ void main_menu(){
         }
     }
     return;
+}
+string normalize(const string &s) { //chuẩn hoá chuỗi
+    string result;
+    stringstream ss(s);
+    string word;
+    while (ss >> word) { //xoá bỏ khoảng trắng
+        if (!result.empty()) result += " ";
+        result += word;
+    }
+    transform(result.begin(), result.end(), result.begin(),     // chuyển về lowercase
+              [](unsigned char c){ return tolower(c); });
+
+    return result;
+}
+bool timChuoi(const string &a, const string &b) {
+    string A = normalize(a);
+    string B = normalize(b);
+    if (B.find(A) != string::npos) 
+        return true;
+    return false;
 }

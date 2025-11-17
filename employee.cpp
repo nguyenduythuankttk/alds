@@ -62,7 +62,7 @@ void Employee::employee_menu() const{
     cout << "| 9 | Dang xuat                                    |\n";
     cout << "----------------------------------------------------\n";
     int lc;
-    cout<<"Moi lua chon:";cin>>lc;cin.ignore();
+    cout<<"=> Moi lua chon (1-9): ";cin>>lc;cin.ignore();
     switch (lc){
         case 1:{
             int s;
@@ -82,7 +82,7 @@ void Employee::employee_menu() const{
             }
             else {
                 char c;
-                cout<<"Chua ton tai nguoi dung.Thoat(Y/N)?";
+                cout<<"Chua ton tai nguoi dung. Thoat? (Y/N): ";
                 cin>>c; cin.ignore(); c=toupper(c);
                 if (c=='Y') goto menu;
                 else goto id;

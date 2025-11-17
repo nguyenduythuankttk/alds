@@ -117,7 +117,7 @@ void CustomerOrder::Create_Order(const Vector <Product> &p ,Vector <CustomerOrde
         cout<<right;
     }
     if (newOrder.productList.Get_Size()==0){
-        cout <<"Chua co san pham nao duoc tao.Tro ve menu chinh?(Y/N)";
+        cout <<"Chua co san pham nao duoc tao. Tro ve menu chinh? (Y/N): ";
         char choice;
         cin>>choice;cin.ignore();
         choice=toupper(choice);
@@ -128,7 +128,7 @@ void CustomerOrder::Create_Order(const Vector <Product> &p ,Vector <CustomerOrde
         }
     }
     char c;
-    cout<<"Xac nhan thanh toan?(Y/N)";cin>>c;cin.ignore();c=toupper(c);
+    cout<<"Xac nhan thanh toan? (Y/N): ";cin>>c;cin.ignore();c=toupper(c);
     if (c=='Y'){    
         for (int i=0;i<newOrder.productList.Get_Size();i++){
             string s=newOrder.productList.getKey(i);

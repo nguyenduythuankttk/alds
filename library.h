@@ -12,6 +12,7 @@
     class Employee;
     class PurchaseOrder;
     class CustomerOrder;
+    class ChitietPhieunhap;
     extern Vector<Warehouse> Warehouse_List;  
     extern Vector<Product> Product_List;
     extern Vector<Product> inWarehouse;
@@ -19,6 +20,7 @@
     extern Vector<Employee> Employee_List;
     extern Vector <PurchaseOrder> PurchaseOrder_List;
     extern Vector <CustomerOrder> CustomerOrder_List;
+    extern Vector <ChitietPhieunhap> hoadon_List;
 
 
     extern User current_User;
@@ -30,3 +32,5 @@
     void sign_up(Vector <User>&);
     void user_sign_in(User &,Vector <User>&);
     void employee_sign_in();
+    bool timChuoi(const string &, const string &);
+

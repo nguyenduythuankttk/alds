@@ -5,6 +5,7 @@
 #include "employee.h"     
 #include "purchaseorder.h"
 #include "customerorder.h"
+#include "chitietphieunhap.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ using namespace std;
     Vector<Employee> Employee_List;
     Vector<PurchaseOrder> PurchaseOrder_List;
     Vector<CustomerOrder> CustomerOrder_List;
+    Vector <ChitietPhieunhap> hoadon_List;
     Warehouse a;
     User current_User;
     Employee current_Employee;
@@ -29,6 +31,7 @@ int main() {
     Employee e;e.readfile(Employee_List);
     PurchaseOrder pu;pu.Readfile(PurchaseOrder_List);
     CustomerOrder c;c.readFile(CustomerOrder_List); 
+
     // menu dang nhap
     main_menu();
 

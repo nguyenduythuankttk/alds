@@ -173,7 +173,9 @@ void Product::Find_product(const Vector<Product>&v, Vector<Product>& result,cons
     if (max_price==-1) max_price=INT_MAX;
     if (max_price<min_price) swap(max_price,min_price);
     for (int i=0;i<v.getsize();i++){
-        if ((name1=="-1" || v[i].name==name1) && (category1=="-1" || v[i].category==category1) && (v[i].price>=min_price) && (v[i].price<=max_price))
+        bool matchName = (name1=="-1") || timChuoi(name1, v[i].name);
+        bool matchCat = (category1=="-1") || timChuoi(category1, v[i].category);
+        if (matchName && matchCat && v[i].price>=min_price && v[i].price<=max_price)
             result.push_back(v[i]);
     }
 }

@@ -62,7 +62,7 @@ void User::user_menu() const{
     cout << "| 4 | Tra cuu don hang                       |\n";
     cout << "| 5 | Dang xuat                              |\n";
     cout << "----------------------------------------------\n";
-    cout << "Moi lua chon (1-5): ";
+    cout << "=> Moi lua chon (1-5): ";
     int choice;
     cin>>choice;cin.ignore();
     Product p;
@@ -102,7 +102,7 @@ void User::user_menu() const{
             
             cout<<"1.Mua hang\n";
             cout<<"2.Quay lai\n";
-            cout<<"Moi lua chon";cin>>lc;cin.ignore();
+            cout<<"=> Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2)  {
                 inWarehouse.Erase();
                goto option;
@@ -120,7 +120,7 @@ void User::user_menu() const{
             p.Show(inWarehouse);
             cout<<"1.Mua hang\n";
             cout<<"2.Quay lai\n";
-            cout<<"Moi lua chon";cin>>lc;cin.ignore();
+            cout<<"=> Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2)  {
                 inWarehouse.Erase();
                goto option;
@@ -149,7 +149,7 @@ void User::user_menu() const{
             int lc;
             cout<<"1.Mua hang\n";
             cout<<"2.Quay lai\n";
-            cout<<"Moi lua chon: ";cin>>lc;cin.ignore();
+            cout<<"=> Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2) {
                 inWarehouse.Erase();
                 goto option;

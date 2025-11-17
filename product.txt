@@ -6,4 +6,4 @@ P005,USB Kingston 32GB,Phu kien,250000,10,20,21/12/2023,15/02/2025
 P001,Chuot Logitech G102,Thiet bi ngoai vi,245000,103,20,,
 P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,18,22,13/12/2024,13/12/2025
 P003,Man hinh Dell 24 inch,Man hinh,3500000,36,40,12/11.2025,12/12/2025
-1,asa,asa,1230000,0,13,,
+

@@ -6,19 +6,17 @@
 using namespace std;
 
 class PurchaseOrder{
-    int id;
-    int employeeID;
-    int warehouseID;
-    string date;
-    Map<string,int> List;
-    unsigned int sum;
+    private:
+        int id;
+        int employeeID;
+        int warehouseID;
+        string date;
+        unsigned int sum;
     public:
         PurchaseOrder();
         ~PurchaseOrder();
         void Readfile(Vector <PurchaseOrder>&);
         void Savefile(const Vector <PurchaseOrder>&);
-        void create_PurchaseOrder(Vector<PurchaseOrder>&);
-        void show() const;
-        void order_date(const Vector<PurchaseOrder>&,Vector<PurchaseOrder>&,const string&) const;
-        int getsum()const;
+        int GetID() const;
+        void Create_PurchaseOrder(Vector <PurchaseOrder>&);
 };
