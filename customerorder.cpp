@@ -221,3 +221,6 @@ void CustomerOrder::order_date(const Vector<CustomerOrder>& v,Vector<CustomerOrd
 int CustomerOrder::getsum() const{
     return this->sum;
 }
+int CustomerOrder::GetID() const{
+    return this->id;
+}

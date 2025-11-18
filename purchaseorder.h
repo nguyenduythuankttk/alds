@@ -18,5 +18,11 @@ class PurchaseOrder{
         void Readfile(Vector <PurchaseOrder>&);
         void Savefile(const Vector <PurchaseOrder>&);
         int GetID() const;
-        void Create_PurchaseOrder(Vector <PurchaseOrder>&);
+        void create_PurchaseOrder(Vector <PurchaseOrder>&);
+        void show() const;
+        void order_date(const Vector<PurchaseOrder>&, Vector<PurchaseOrder>&, const string&) const;
+        int getsum() const;
+        int GetWarehouseID() const;
+        string GetDate() const;
+        int GetEmployeeID() const;
 };

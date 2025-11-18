@@ -27,4 +27,5 @@ class CustomerOrder {
         void show() const;
         void order_date(const Vector<CustomerOrder>&,Vector<CustomerOrder>&,const string&) const;
         int getsum() const;
+        int GetID() const;
 };

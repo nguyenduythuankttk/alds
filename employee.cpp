@@ -1,12 +1,14 @@
 #include "employee.h"
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include "library.h"
 #include "customerorder.h"
 #include "user.h"
 #include "purchaseorder.h"
 #include "product.h"
 #include "warehouse.h"
+#include "chitietphieunhap.h"
 #include <iomanip>
 Employee::Employee(){}
 Employee::Employee(const int&ID,const string& username,const string& password):
@@ -133,28 +135,92 @@ void Employee::employee_menu() const{
             }
             cout<<"Nhan Enter de quay lai";getline(cin,s);
             current_Employee.employee_menu();
+            break;
         }
         case 5:{
             string date,s;
-            cout<<"Nhap ngay thang nam(dd/mm/yyyy)";getline(cin,date);
+            cout<<"Nhap ngay thang nam(dd/mm/yyyy):";getline(cin,date);
             Vector <PurchaseOrder> r1;
             Vector <CustomerOrder> r2;
             PurchaseOrder p1;CustomerOrder c1;
             int sum1=0,sum2=0;
-            cout<<"Phieu nhap:"<<endl;
+            cout<<"\n=== DON NHAP TRONG NGAY ===\n";
             p1.order_date(PurchaseOrder_List,r1,date);
-            for (int i=0;i<r1.getsize();i++){
-                r1[i].show();
-                sum1+=r1[i].getsum();
+            if (r1.getsize()==0) {
+                cout<<"Khong co phieu nhap nao trong ngay.\n";
+            } else {
+                cout<<left
+                    <<setw(6)<<"ID"
+                    <<setw(15)<<"Ngay"
+                    <<setw(12)<<"Nhan vien"
+                    <<setw(10)<<"Kho"
+                    <<setw(15)<<"Tong tien"
+                    <<endl;
+                cout<<string(58,'-')<<endl;
+                for (int i=0;i<r1.getsize();i++){
+                    cout<<left
+                        <<setw(6)<<r1[i].GetID()
+                        <<setw(15)<<r1[i].GetDate()
+                        <<setw(12)<<r1[i].GetEmployeeID()
+                        <<setw(10)<<r1[i].GetWarehouseID()
+                        <<setw(15)<<r1[i].getsum()
+                        <<endl;
+                    sum1+=r1[i].getsum();
+                }
             }
-            cout<<"Tong tien trong ngay:"<<sum1<<endl;
-            //cout<<"Hoa don:"<<endl;
+            cout<<"Tong chi phi nhap trong ngay: "<<sum1<<endl;
+
+            cout<<"\n=== HOA DON BAN TRONG NGAY ===\n";
             c1.order_date(CustomerOrder_List,r2,date);
-            for (int i=0;i<r2.getsize();i++){
-                r2[i].show();
-                sum2+=r2[i].getsum();
+            if (r2.getsize()==0) {
+                cout<<"Khong co hoa don nao trong ngay.\n";
+            } else {
+                cout<<left
+                    <<setw(6)<<"ID"
+                    <<setw(15)<<"Tong tien"
+                    <<endl;
+                cout<<string(21,'-')<<endl;
+                for (int i=0;i<r2.getsize();i++){
+                    cout<<left
+                        <<setw(6)<<r2[i].GetID()
+                        <<setw(15)<<r2[i].getsum()
+                        <<endl;
+                    sum2+=r2[i].getsum();
+                }
             }
-            cout<<"Tong tien trong ngay"<<sum2<<endl;
+            cout<<"Tong doanh thu trong ngay: "<<sum2<<endl;
+
+            while (true){
+                cout<<"Nhap ma phieu/hoa don de xem chi tiet (Enter de quay lai): ";
+                string input;
+                getline(cin,input);
+                if (input=="") break;
+                bool handled=false;
+                try{
+                    int id=stoi(input);
+                    for (int i=0;i<r1.getsize();i++){
+                        if (r1[i].GetID()==id){
+                            ChitietPhieunhap::show(hoadon_List,id);
+                            handled=true;
+                            break;
+                        }
+                    }
+                    if (!handled){
+                        for (int i=0;i<r2.getsize();i++){
+                            if (r2[i].GetID()==id){
+                                r2[i].show();
+                                handled=true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!handled){
+                        cout<<"Khong tim thay ma trong danh sach ngay "<<date<<".\n";
+                    }
+                }catch(const invalid_argument&){
+                    cout<<"Ma khong hop le.\n";
+                }
+            }
             cout<<"Nhan Enter de quay lai";getline(cin,s);
             current_Employee.employee_menu();
             break;

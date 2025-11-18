@@ -29,6 +29,7 @@ int main() {
     Warehouse w;w.readfile(Warehouse_List);
     User u;u.readfile(User_List);
     Employee e;e.readfile(Employee_List);
+    ChitietPhieunhap ctp;ctp.ReadFile(hoadon_List);
     PurchaseOrder pu;pu.Readfile(PurchaseOrder_List);
     CustomerOrder c;c.readFile(CustomerOrder_List); 
 
@@ -41,5 +42,6 @@ int main() {
     u.savefile(User_List);
     e.savefile(Employee_List);
     pu.Savefile(PurchaseOrder_List);
+    ctp.SaveFile(hoadon_List);
     c.saveFile(CustomerOrder_List);
 }
