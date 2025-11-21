@@ -78,9 +78,48 @@ void Employee::employee_menu() const{
             if (u.find_by_id(s)) {
                 u=tmp.id(s);
                 co.order_by(CustomerOrder_List,result,u.GetID());
-                for (int i=0;i<result.getsize();i++) result[i].show();
-                string s;
-                cout<<"Nhap Enter quay lai";getline(cin,s);
+                if (result.getsize()==0){
+                    cout<<"Nguoi dung chua co don hang nao.\n";
+                } else {
+                    cout<<"\n=== HOA DON CUA NGUOI DUNG "<<u.GetID()<<" ===\n";
+                    cout<<left
+                        <<setw(6)<<"ID"
+                        <<setw(15)<<"Ngay"
+                        <<setw(15)<<"Kho"
+                        <<setw(15)<<"Tong tien"
+                        <<endl;
+                    cout<<string(51,'-')<<endl;
+                    for (int i=0;i<result.getsize();i++){
+                        cout<<left
+                            <<setw(6)<<result[i].getID()
+                            <<setw(15)<<result[i].GetDate()
+                            <<setw(15)<<result[i].GetWarehouseID()
+                            <<setw(15)<<result[i].getsum()
+                            <<endl;
+                    }
+                    while (true){
+                        cout<<"Nhap ID hoa don de xem chi tiet (Enter de quay lai): ";
+                        string input;
+                        getline(cin,input);
+                        if (input=="") break;
+                        try{
+                            int id=stoi(input);
+                            bool found=false;
+                            for (int i=0;i<result.getsize();i++){
+                                if (result[i].getID()==id){
+                                    result[i].show();
+                                    found=true;
+                                    break;
+                                }
+                            }
+                            if (!found) cout<<"Khong tim thay ID hoa don.\n";
+                        }catch(const invalid_argument&){
+                            cout<<"Ma khong hop le.\n";
+                        }
+                    }
+                }
+                string pause;
+                cout<<"Nhap Enter quay lai";getline(cin,pause);
                 goto menu;
             }
             else {
@@ -225,7 +264,7 @@ void Employee::employee_menu() const{
                 cout<<string(21,'-')<<endl;
                 for (int i=0;i<r2.getsize();i++){
                     cout<<left
-                        <<setw(6)<<r2[i].GetID()
+                        <<setw(6)<<r2[i].getID()
                         <<setw(15)<<r2[i].getsum()
                         <<endl;
                     sum2+=r2[i].getsum();
@@ -241,7 +280,7 @@ void Employee::employee_menu() const{
                 try{
                     int id=stoi(input);
                     for (int i=0;i<r2.getsize();i++){
-                        if (r2[i].GetID()==id){
+                        if (r2[i].getID()==id){
                             r2[i].show();
                             handled=true;
                             break;

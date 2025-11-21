@@ -22,7 +22,6 @@ class CustomerOrder {
         int getsum() const;
         int GetWarehouseID() const;
         string GetDate() const;
-        int GetUserID() const;
         void show() const;
         void order_date(const Vector<CustomerOrder>&,Vector<CustomerOrder> &,const string&) const;
         void create_Order(Vector<CustomerOrder>&);

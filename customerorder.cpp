@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <vector>
 CustomerOrder::CustomerOrder(){
     this->id=0;
     this->customerID=0;
@@ -19,24 +20,34 @@ CustomerOrder::~CustomerOrder(){}
 void CustomerOrder::Readfile(Vector <CustomerOrder>& v){
     ifstream file("order.txt");
     string sv;
-    int i;
-    CustomerOrder c;
     while (getline(file,sv)){
         if (sv=="") continue;
-        i=0;
         CustomerOrder c;
+        vector<string> tokens;
         stringstream sub(sv);
         string s;
         while (getline(sub,s,',')){
-            switch (i)
-            {
-                case 0:{c.id=stoi(s);break;}
-                case 1:{c.customerID=stoi(s);break;}
-                case 2:{c.warehouseID=stoi(s);break;}
-                case 3:{c.orderDate=s;break;}
-                case 4:{c.sum=stoi(s);break;}
+            if (s=="") continue;
+            tokens.push_back(s);
+        }
+        int idx=0;
+        try{
+            if (idx<tokens.size()) c.id=stoi(tokens[idx++]);
+            if (idx<tokens.size()) c.customerID=stoi(tokens[idx++]);
+            if (idx<tokens.size()){
+                if (tokens[idx].find('/')==string::npos){
+                    c.warehouseID=stoi(tokens[idx]);
+                    idx++;
+                } else {
+                    c.warehouseID=0;
+                    c.orderDate=tokens[idx];
+                    idx++;
+                }
             }
-            i++;
+            if (idx<tokens.size() && c.orderDate.empty()) c.orderDate=tokens[idx++];
+            if (idx<tokens.size()) c.sum=stoi(tokens[idx++]);
+        }catch(const invalid_argument&){
+            continue;
         }
         v.push_back(c);
     }
@@ -63,12 +74,9 @@ void CustomerOrder::order_date(const Vector<CustomerOrder>& v,Vector<CustomerOrd
 int CustomerOrder::getsum() const{
     return this->sum;
 }
-int CustomerOrder::getID() const{
-    return this->id;
-}
 string CustomerOrder::GetDate() const{ return this->orderDate;}
 int CustomerOrder::GetWarehouseID() const {return this->warehouseID;}
-int CustomerOrder::GetUserID() const {return this->customerID;}
+int CustomerOrder::getID() const {return this->customerID;}
 void CustomerOrder::create_Order(Vector <CustomerOrder>&v){
     clear_screen();
     CustomerOrder newOrder;

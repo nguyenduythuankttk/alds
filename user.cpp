@@ -168,12 +168,49 @@ void User::user_menu() const{
             Vector <CustomerOrder> result;
             CustomerOrder tmp;
             tmp.order_by(CustomerOrder_List,result,current_User.GetID());
-            for (int i=0;i<result.getsize();i++){
-                result[i].show();
+            if (result.getsize()==0){
+                cout<<"[Thong bao] Ban chua co don hang nao.\n";
+                cout<<"Nhan Enter de quay lai menu";
+                string pause;getline(cin,pause);
+                main_menu();
+                break;
             }
-            string s;
-            cout<<"Nhap phim bat ki de quay lai menu";getline(cin,s);
-            main_menu();
+            cout<<"\n=== DANH SACH HOA DON ===\n";
+            cout<<left
+                <<setw(6)<<"ID"
+                <<setw(15)<<"Ngay"
+                <<setw(15)<<"Kho"
+                <<setw(15)<<"Tong tien"
+                <<endl;
+            cout<<string(51,'-')<<endl;
+            for (int i=0;i<result.getsize();i++){
+                cout<<left
+                    <<setw(6)<<result[i].getID()
+                    <<setw(15)<<result[i].GetDate()
+                    <<setw(15)<<result[i].GetWarehouseID()
+                    <<setw(15)<<result[i].getsum()
+                    <<endl;
+            }
+            while (true){
+                cout<<"Nhap ID hoa don de xem chi tiet (Enter de quay lai): ";
+                string input;
+                getline(cin,input);
+                if (input=="") break;
+                try{
+                    int id=stoi(input);
+                    bool found=false;
+                    for (int i=0;i<result.getsize();i++){
+                        if (result[i].getID()==id){
+                            result[i].show();
+                            found=true;
+                            break;
+                        }
+                    }
+                    if (!found) cout<<"Khong tim thay ID hoa don.\n";
+                }catch(const invalid_argument&){
+                    cout<<"Ma khong hop le.\n";
+                }
+            }
             break;
         }
         case 5:{
