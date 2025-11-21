@@ -58,6 +58,7 @@ void choose_warehouse(Warehouse &w){
         Warehouse tmp;
         w=tmp.Find_by_Address(Warehouse_List,Warehouse_List[stt-1].Get_Address());
         cout<<"Da chon kho: "<<w.Get_Name()<<" ("<<w.Get_Address()<<")\n";
+        w.ProductList(inWarehouse);
         break;
     }
 }
@@ -70,7 +71,7 @@ void clear_screen(){
 #endif
 }
 void sign_up(Vector <User>&v){
-    string name,password,confirm_password;
+    string name,password,confirm_password,fullname,phone,email,address;
     User u;
     create_username:
     cout<<"Nhap ten dang nhap:";
@@ -91,9 +92,11 @@ void sign_up(Vector <User>&v){
         cout<<"Nhap sai mat khau.Vui long tao lai mat khau";
         goto create_password;
     }
-    string address;
-    cout<<"Nhap dia chi:";getline(cin,address);
-    u=User(v.getsize(),name,password,address);
+    cout<<"Nhap ho ten: ";getline(cin,fullname);
+    cout<<"Nhap so dien thoai: ";getline(cin,phone);
+    cout<<"Nhap email: ";getline(cin,email);
+    cout<<"Nhap dia chi: ";getline(cin,address);
+    u=User(v.getsize(),name,password,fullname,phone,email,address);
     v.push_back(u);
     cout<<"Da tao tai khoan thanh cong. Tro ve menu chinh"<<endl;
     main_menu();
@@ -145,6 +148,7 @@ void employee_sign_in(Employee &cur_Employee,const Vector<Employee>& v){
         }
         count++;
     }while (count<3 && b==false);
+    clear_screen();
     if (b==false){ cout<<"Khong ton tai nhan vien nay"<<endl;
     main_menu();}
     else cur_Employee.employee_menu();
@@ -201,9 +205,21 @@ string normalize(const string &s) { //chuẩn hoá chuỗi
 bool timChuoi(const string &a, const string &b) {
     string A = normalize(a);
     string B = normalize(b);
+    if (A == "-1" || A.empty()) return true;
     if (B.find(A) != string::npos) 
         return true;
     return false;
+}
+bool parse_date(const string& d,int out[3]){
+    if (d.size()!=10 || d[2]!='/' || d[5]!='/') return false;
+    for (int i=0;i<10;i++){
+        if (i==2 || i==5) continue;
+        if (!isdigit(static_cast<unsigned char>(d[i]))) return false;
+    }
+    out[0]=stoi(d.substr(0,2));
+    out[1]=stoi(d.substr(3,2));
+    out[2]=stoi(d.substr(6,4));
+    return true;
 }
 bool _date(const string& date) {
     if (date.size()!=10) return false; // kiểm tra đúng định dạng đầu vào

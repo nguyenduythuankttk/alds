@@ -27,8 +27,11 @@ class Product {
         int Get_Sold() const;
         string Get_last_bought() const;
         string Get_last_sold() const;
+        bool Is_Inventory_Product(const string& currentDate) const;
 
         void Set_price(const int&);
+        void Set_last_bought(const string&);
+        void Set_last_sold(const string&);
 
 
         void Add_bought(const int&); 
@@ -46,4 +49,3 @@ class Product {
         Product& Find_byid(const string&, const Vector<Product>&);
         void sx(const Vector<Product>& ,Vector <Product>&);
     };
-

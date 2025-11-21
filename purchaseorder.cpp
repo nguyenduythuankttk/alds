@@ -125,6 +125,7 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder>& v){
         int unitPrice = productPtr->Get_price();
         warehouse.Add_Product(productID, quantity);
         productPtr->Add_bought(quantity);
+        productPtr->Set_last_bought(newOrder.date);
         long long lineTotal = static_cast<long long>(unitPrice)*quantity;
         newOrder.sum += lineTotal;
 
@@ -148,7 +149,14 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder>& v){
 void PurchaseOrder::show() const{
     cout<<"\n===== PHIEU NHAP #" << id << " =====\n";
     cout<<"Ngay nhap : "<<date<<"\n";
-    cout<<"Nhan vien : "<<employeeID<<"\n";
+    string empName="[Chua xac dinh]";
+    for (int i=0;i<Employee_List.getsize();i++){
+        if (Employee_List[i].getEmployeeID()==employeeID){
+            empName=Employee_List[i].GetFullname();
+            break;
+        }
+    }
+    cout<<"Nhan vien : "<<empName<<" (ID "<<employeeID<<")\n";
     cout<<"Kho nhap  : "<<warehouseID<<"\n";
     cout<<"Tong tien : "<<sum<<"\n";
 }

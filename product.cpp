@@ -2,6 +2,7 @@
 #include <sstream>
 #include <limits.h>
 #include <iomanip>
+#include <tuple>
 Product::Product() {}
 Product::Product(const string &Name, const string &id, const int &price, const string &cat,const int&nhap,const int&ban,const string& last1,const string& last2)
     : price(price), category(cat), name(Name), id(id), bought(nhap), sold(ban),last_bought(last1),last_sold(last2) {}
@@ -17,6 +18,21 @@ Product::~Product() {}
 
 string Product::Get_last_bought() const{return this->last_bought;}
 string Product::Get_last_sold() const{return this->last_sold;}
+void Product::Set_last_bought(const string& date){ this->last_bought=date; }
+void Product::Set_last_sold(const string& date){ this->last_sold=date; }
+bool Product::Is_Inventory_Product(const string& currentDate) const{
+    auto monthsBetween=[&](const string& from,const string& to){
+        int start[3]={0,0,0};
+        int end[3]={0,0,0};
+        if (!parse_date(from,start) || !parse_date(to,end)) return INT_MAX;
+        int months=(end[2]-start[2])*12+(end[1]-start[1]);
+        if (end[0]<start[0]) months--;
+        return months;
+    };
+    int monthsSinceBought=monthsBetween(last_bought,currentDate);
+    int monthsSinceSold=monthsBetween(last_sold,currentDate);
+    return (monthsSinceBought>=6) || (monthsSinceSold>=6);
+}
 string Product::Get_ID() const { return this->id; }
 string Product::Get_Name() const { return this->name; }
 string Product::Get_Cat() const { return this->category; }

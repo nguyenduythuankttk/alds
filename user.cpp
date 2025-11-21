@@ -3,40 +3,51 @@
 #include "customerorder.h"
 #include "warehouse.h"
 #include <iomanip>
+#include <fstream>
+#include <sstream>
 User::User(){}
-User::User(const int&ID,const string& username,const string& password,const string &address):
-    Person(username,password),userID(ID),address(address){}
-User::User(const User& other){
+User::User(const int&ID,const string& username,const string& password,const string &fullname,const string& phone,const string& email,const string &address):
+    Person(username,password,fullname,phone,email,address),userID(ID){}
+User::User(const User& other):Person(other){
     this->userID=other.userID;
-    this->username=other.username;
-    this->password=other.password;
 }
 User::~User(){}
 void User::ShowInfo() const{
     cout<<"ID nguoi dung:"<<userID<<endl;
     cout<<"Ten tai khoan:"<<username<<endl;
     cout<<"Mat khau::"<<password<<endl;
+    cout<<"Ho ten:"<<fullname<<endl;
+    cout<<"SDT:"<<phone<<endl;
+    cout<<"Email:"<<email<<endl;
+    cout<<"Dia chi:"<<address<<endl;
 }
 void User::SetuserID(const int& ID){
     this->userID=ID;
 }
 string User::getAddress() const{ return address;}
+string User::getFullname() const{ return fullname;}
+string User::getPhone() const{ return phone;}
+string User::getEmail() const{ return email;}
 void User::readfile(Vector<User> &v){
-    string s;
-    int i;
-    User u;
     ifstream filename("user.txt");
-    while (getline(filename,s)){
-        if (s=="") continue;
-        i=0;
-        stringstream sub(s);
-        while (getline(sub,s,',')){
-            if (i==0) u.SetuserID(stoi(s));
-            else if(i==1) u.Setusername(s);
-            else if(i==2) u.Setpassword(s);
-            else u.address=s;
-            i++;
-
+    string line;
+    while (getline(filename,line)){
+        if (line=="") continue;
+        stringstream sub(line);
+        string token;
+        User u;
+        int idx=0;
+        while (getline(sub,token,',')){
+            switch(idx){
+                case 0: u.SetuserID(stoi(token)); break;
+                case 1: u.Setusername(token); break;
+                case 2: u.Setpassword(token); break;
+                case 3: u.SetFullname(token); break;
+                case 4: u.SetPhone(token); break;
+                case 5: u.SetEmail(token); break;
+                case 6: u.SetAddress(token); break;
+            }
+            idx++;
         }
         v.push_back(u);
     }
@@ -44,7 +55,7 @@ void User::readfile(Vector<User> &v){
 void User::savefile(const Vector<User> &v) const{
     ofstream file("user.txt");
     for (int i=0;i<v.getsize();i++){
-        file<<v[i].userID<<","<<v[i].username<<","<<v[i].password<<","<<v[i].address<<"\n";
+        file<<v[i].userID<<","<<v[i].username<<","<<v[i].password<<","<<v[i].getFullname()<<","<<v[i].getPhone()<<","<<v[i].getEmail()<<","<<v[i].getAddress()<<"\n";
     }
 }
 int User::GetID() const{
@@ -71,7 +82,7 @@ void User::user_menu() const{
         case 1: {
             Product p;
             Vector<Product> list;
-            p.sx(Product_List, list);
+            p.sx(inWarehouse, list);
             int lc;
 
             cout << "\n=== SAN PHAM NOI BAT (TOP 5) ===\n";
@@ -160,7 +171,6 @@ void User::user_menu() const{
                 CustomerOrder c;
                 c.create_Order(CustomerOrder_List);
             }
-            inWarehouse.Erase();
             goto option;
             break;
         }

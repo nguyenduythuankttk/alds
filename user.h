@@ -5,14 +5,16 @@ using namespace std;
 class User:public Person{
     private: 
         int userID;
-        string address;
     public:
         User();
-        User(const int&,const string&,const string&,const string&);
+        User(const int& id,const string& username,const string& password,const string& fullname="",const string& phone="",const string& email="",const string& address="");
         User(const User&);
         ~User();
         void SetuserID(const int&);
         string getAddress() const;
+        string getFullname() const;
+        string getPhone() const;
+        string getEmail() const;
         void ShowInfo() const;
         void readfile(Vector<User> &);
         void savefile(const Vector<User> &) const;

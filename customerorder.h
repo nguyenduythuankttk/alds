@@ -19,6 +19,7 @@ class CustomerOrder {
         void Readfile(Vector <CustomerOrder>&);
         void Savefile(const Vector <CustomerOrder>&) const;
         int getID() const;
+        int GetCustomerID() const;
         int getsum() const;
         int GetWarehouseID() const;
         string GetDate() const;

@@ -11,28 +11,38 @@
 #include "chitietphieunhap.h"
 #include <iomanip>
 Employee::Employee(){}
-Employee::Employee(const int&ID,const string& username,const string& password):
-    Person(username,password),employeeID(ID){}
+Employee::Employee(const int&ID,const string& username,const string& password,const string& fullname,const string& phone,const string& email,const string& address):
+    Person(username,password,fullname,phone,email,address),employeeID(ID){}
 Employee::~Employee(){}
 void Employee::ShowInfo() const{
     cout<<"ID nguoi dung:"<<employeeID<<endl;
     cout<<"Ten tai khoan:"<<username<<endl;
-    cout<<"Mat khau::"<<password<<endl;
+    cout<<"Mat khau:"<<password<<endl;
+    cout<<"Ho ten:"<<fullname<<endl;
+    cout<<"SDT:"<<phone<<endl;
+    cout<<"Email:"<<email<<endl;
+    cout<<"Dia chi:"<<address<<endl;
 }
 void Employee::readfile(Vector<Employee>& v){
-    string s;
-    int i;
-    Employee e;
     ifstream filename("employee.txt");
-    while (getline(filename,s)){
-        if (s=="") continue;
-        i=0;
-        stringstream sub(s);
-        while (getline(sub,s,',')){
-            if (i==0) e.employeeID=stoi(s);
-            else if(i==1) e.username=s;
-            else e.password=s;
-            i++;
+    string line;
+    while (getline(filename,line)){
+        if (line=="") continue;
+        stringstream sub(line);
+        string token;
+        Employee e;
+        int idx=0;
+        while (getline(sub,token,',')){
+            switch(idx){
+                case 0: e.employeeID=stoi(token); break;
+                case 1: e.username=token; break;
+                case 2: e.password=token; break;
+                case 3: e.fullname=token; break;
+                case 4: e.phone=token; break;
+                case 5: e.email=token; break;
+                case 6: e.address=token; break;
+            }
+            idx++;
         }
         v.push_back(e);
     }
@@ -40,7 +50,7 @@ void Employee::readfile(Vector<Employee>& v){
 void Employee::savefile(const Vector<Employee> &v) const{
     ofstream file("employee.txt");
     for (int i=0;i<v.getsize();i++){
-        file<<v[i].employeeID<<","<<v[i].username<<","<<v[i].password<<"\n";
+        file<<v[i].employeeID<<","<<v[i].username<<","<<v[i].password<<","<<v[i].fullname<<","<<v[i].phone<<","<<v[i].email<<","<<v[i].address<<"\n";
     }
 }
 void Employee::setEmployeeID(const int& ID) {
@@ -90,10 +100,13 @@ void Employee::employee_menu() const{
                         <<endl;
                     cout<<string(51,'-')<<endl;
                     for (int i=0;i<result.getsize();i++){
-                        cout<<left
-                            <<setw(6)<<result[i].getID()
-                            <<setw(15)<<result[i].GetDate()
-                            <<setw(15)<<result[i].GetWarehouseID()
+                    Warehouse wh = a;
+                    for (int j=0;j<Warehouse_List.getsize();j++)
+                        if (Warehouse_List[j].Get_ID()==result[i].GetWarehouseID()) wh=Warehouse_List[j];
+                    cout<<left
+                        <<setw(6)<<result[i].getID()
+                        <<setw(15)<<result[i].GetDate()
+                        <<setw(15)<<wh.Get_ID()
                             <<setw(15)<<result[i].getsum()
                             <<endl;
                     }
@@ -143,8 +156,30 @@ void Employee::employee_menu() const{
             goto menu;
         }
         case 3:{
-            for (int i=0;i<Employee_List.getsize();i++)
-                Employee_List[i].ShowInfo();
+            cout<<"\n=== DANH SACH NHAN VIEN ===\n";
+            if (Employee_List.getsize()==0){
+                cout<<"Khong co nhan vien nao.\n";
+            } else {
+                cout<<left
+                    <<setw(6)<<"ID"
+                    <<setw(20)<<"Tai khoan"
+                    <<setw(20)<<"Ho ten"
+                    <<setw(15)<<"SDT"
+                    <<setw(25)<<"Email"
+                    <<setw(25)<<"Dia chi"
+                    <<endl;
+                cout<<string(111,'-')<<endl;
+                for (int i=0;i<Employee_List.getsize();i++){
+                    cout<<left
+                        <<setw(6)<<Employee_List[i].getEmployeeID()
+                        <<setw(20)<<Employee_List[i].Getusername()
+                        <<setw(20)<<Employee_List[i].GetFullname()
+                        <<setw(15)<<Employee_List[i].GetPhone()
+                        <<setw(25)<<Employee_List[i].GetEmail()
+                        <<setw(25)<<Employee_List[i].GetAddress()
+                        <<endl;
+                }
+            }
             cout<<"Nhan Enter de quay lai";
             {
                 string tmp;
@@ -259,9 +294,10 @@ void Employee::employee_menu() const{
             } else {
                 cout<<left
                     <<setw(6)<<"ID"
+                    <<setw(5)<<"ID ND"
                     <<setw(15)<<"Tong tien"
                     <<endl;
-                cout<<string(21,'-')<<endl;
+                cout<<string(26,'-')<<endl;
                 for (int i=0;i<r2.getsize();i++){
                     cout<<left
                         <<setw(6)<<r2[i].getID()
@@ -271,9 +307,11 @@ void Employee::employee_menu() const{
                 }
             }
             cout<<"Tong doanh thu trong ngay: "<<sum2<<endl;
+            string input="";
+            idx:
             while (true){
                 cout<<"Nhap ma hoa don de xem chi tiet (Enter de quay lai): ";
-                string input;
+                
                 getline(cin,input);
                 if (input=="") break;
                 bool handled=false;
@@ -293,6 +331,7 @@ void Employee::employee_menu() const{
                     cout<<"Ma khong hop le.\n";
                 }
             }
+            if (input=="") goto idx;
             cout<<"Nhan Enter de quay lai";
             {
                 string tmp;
@@ -301,7 +340,40 @@ void Employee::employee_menu() const{
             goto menu;
         }
         case 7:{
-            break;
+            string date;
+            do{
+                cout<<"Nhap ngay thang nam(dd/mm/yyyy):";
+                getline(cin,date);
+                if (!_date(date)) cout<<"[Thong bao] Ngay khong hop le. Vui long nhap lai.\n";
+            }while(!_date(date));
+            cout<<"\n=== SAN PHAM TON KHO (>6 THANG) ===\n";
+            cout<<left
+                <<setw(12)<<"ID"
+                <<setw(30)<<"Ten"
+                <<setw(20)<<"Loai"
+                <<setw(12)<<"Gia"
+                <<endl;
+            cout<<string(74,'-')<<endl;
+            int count=0;
+            for (int i=0;i<Product_List.getsize();i++){
+                if (Product_List[i].Is_Inventory_Product(date)){
+                    cout<<left
+                        <<setw(12)<<Product_List[i].Get_ID()
+                        <<setw(30)<<Product_List[i].Get_Name()
+                        <<setw(20)<<Product_List[i].Get_Cat()
+                        <<setw(12)<<Product_List[i].Get_price()
+                        <<endl;
+                    count++;
+                }
+            }
+            if (count==0) cout<<"Khong co san pham nao bi ton kho qua 6 thang.\n";
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            clear_screen();
+            goto menu;
         }
         case 8:{
             int id;
@@ -317,6 +389,13 @@ void Employee::employee_menu() const{
                 }
             }
             t.Show(pr);
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            clear_screen();
+            goto menu;
             break;
         }
         case 9:{
@@ -327,15 +406,17 @@ void Employee::employee_menu() const{
             cout<<"Nhap gia san pham:";cin>>pr;cin.ignore();
             p=t.Find_byid(s,Product_List);
             p.Set_price(pr);
-            cout<<"Da thay doi gia thanh cong";
-            cout<<"Nhan Enter de tro ve";
+            cout<<"Da thay doi gia thanh cong"<<endl;
+            cout<<"Nhan Enter de tro ve"<<endl;
             {
                 string tmp;
                 getline(cin,tmp);
             }
+            clear_screen();
             goto menu;
         }
         case 10:{
+            clear_screen();
             main_menu();
             break;
         }

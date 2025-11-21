@@ -76,7 +76,8 @@ int CustomerOrder::getsum() const{
 }
 string CustomerOrder::GetDate() const{ return this->orderDate;}
 int CustomerOrder::GetWarehouseID() const {return this->warehouseID;}
-int CustomerOrder::getID() const {return this->customerID;}
+int CustomerOrder::getID() const {return this->id;}
+int CustomerOrder::GetCustomerID() const{return this->customerID;}
 void CustomerOrder::create_Order(Vector <CustomerOrder>&v){
     clear_screen();
     CustomerOrder newOrder;
@@ -142,6 +143,7 @@ void CustomerOrder::create_Order(Vector <CustomerOrder>&v){
         int unitPrice=productPtr->Get_price();
         a.Remove_Product(productID,quantity);
         productPtr->Add_sold(quantity);
+        productPtr->Set_last_sold(newOrder.orderDate);
         long long lineTotal=static_cast<long long>(unitPrice)*quantity;
         newOrder.sum+=lineTotal;
         dshoadon.push_back(CTHD(newOrder.id,productID,quantity,unitPrice));
@@ -162,7 +164,15 @@ void CustomerOrder::create_Order(Vector <CustomerOrder>&v){
 void CustomerOrder::show() const{
     cout<<"\n===== HOA DON #" << this->id << " =====\n";
     cout<<"Ngay lap : "<<this->orderDate<<"\n";
-    cout<<"Khach hang: "<<this->customerID<<"\n";
+    User viewer;
+    string customerName = "[Chua xac dinh]";
+    for (int i=0;i<User_List.getsize();i++){
+        if (User_List[i].GetID()==this->customerID){
+            customerName = User_List[i].getFullname();
+            break;
+        }
+    }
+    cout<<"Khach hang: "<<customerName<<" (ID "<<this->customerID<<")\n";
     cout<<"Kho giao  : "<<this->warehouseID<<"\n";
     cout<<"Tong tien : "<<this->sum<<"\n";
 

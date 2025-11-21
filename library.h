@@ -36,3 +36,5 @@
     bool timChuoi(const string &, const string &);
     void choose_warehouse(Warehouse &);
     bool _date(const string&);
+    bool parse_date(const string&,int out[3]);
+
