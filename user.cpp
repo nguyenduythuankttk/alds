@@ -60,7 +60,8 @@ void User::user_menu() const{
     cout << "| 2 | Danh sach san pham                     |\n";
     cout << "| 3 | Tim kiem san pham                      |\n";
     cout << "| 4 | Tra cuu don hang                       |\n";
-    cout << "| 5 | Dang xuat                              |\n";
+    cout << "| 5 | Chon kho hang                          |\n";
+    cout << "| 6 | Dang xuat                              |\n";
     cout << "----------------------------------------------\n";
     cout << "=> Moi lua chon (1-5): ";
     int choice;
@@ -109,7 +110,7 @@ void User::user_menu() const{
             }
             else {
                 CustomerOrder c;
-                c.Create_Order(inWarehouse,CustomerOrder_List);
+                c.create_Order(CustomerOrder_List);
             }
             break;
         }
@@ -127,7 +128,7 @@ void User::user_menu() const{
             }
             else {
                 CustomerOrder c;
-                c.Create_Order(inWarehouse,CustomerOrder_List);
+                c.create_Order(CustomerOrder_List);
             }
             inWarehouse.Erase();
             goto option;
@@ -157,7 +158,7 @@ void User::user_menu() const{
             }
             else {
                 CustomerOrder c;
-                c.Create_Order(result,CustomerOrder_List);
+                c.create_Order(CustomerOrder_List);
             }
             inWarehouse.Erase();
             goto option;
@@ -166,7 +167,7 @@ void User::user_menu() const{
         case 4: {
             Vector <CustomerOrder> result;
             CustomerOrder tmp;
-            tmp.order_by(current_User,CustomerOrder_List,result);
+            tmp.order_by(CustomerOrder_List,result,current_User.GetID());
             for (int i=0;i<result.getsize();i++){
                 result[i].show();
             }
@@ -176,7 +177,12 @@ void User::user_menu() const{
             break;
         }
         case 5:{
+            choose_warehouse(a);
+            break;
+        }
+        case 6:{
             main_menu();
+            break;
         }
     }
     return;

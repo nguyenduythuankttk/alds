@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "map.h"
 #include "vector.h"
 #include <string>
@@ -11,21 +10,21 @@ class CustomerOrder {
     private:
         int id;                         // Mã đơn hàng của khách
         int customerID;                 // Mã khách hàng
+        int warehouseID;
         string orderDate;               // Ngày đặt hàng
-        Map<string, int> productList;   // Danh sách sản phẩm: <ProductID, Quantity>
         unsigned int sum;       // Tổng giá trị đơn hàng
-
     public:
         CustomerOrder();
-        CustomerOrder(const int&,const int&,const string&);
-        CustomerOrder(const CustomerOrder&);
         ~CustomerOrder();
-        void readFile(Vector<CustomerOrder>&);
-        void saveFile(const Vector<CustomerOrder>&) const;
-        void Create_Order(const Vector <Product> &,Vector <CustomerOrder>&);
-        void order_by(const User&, const Vector <CustomerOrder>&,Vector <CustomerOrder>&);
-        void show() const;
-        void order_date(const Vector<CustomerOrder>&,Vector<CustomerOrder>&,const string&) const;
+        void Readfile(Vector <CustomerOrder>&);
+        void Savefile(const Vector <CustomerOrder>&) const;
+        int getID() const;
         int getsum() const;
-        int GetID() const;
+        int GetWarehouseID() const;
+        string GetDate() const;
+        int GetUserID() const;
+        void show() const;
+        void order_date(const Vector<CustomerOrder>&,Vector<CustomerOrder> &,const string&) const;
+        void create_Order(Vector<CustomerOrder>&);
+        void order_by(const Vector<CustomerOrder>&,Vector<CustomerOrder>&,int userID) const;
 };

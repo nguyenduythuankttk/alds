@@ -10,8 +10,57 @@
 #include <algorithm>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
+#include <limits>
+#include <cctype>
 using namespace std;
-
+void choose_warehouse(Warehouse &w){
+    if (Warehouse_List.getsize()==0){
+        cout<<"[Thong bao] Chua co kho nao trong he thong.\n";
+        return;
+    }
+    cout << "\n=============================================\n";
+    cout << "|               CHON KHO GAN BAN              |\n";
+    cout << "==============================================\n";
+    cout << left
+         << setw(5) << "STT"
+         << setw(8) << "Ma"
+         << setw(25) << "Ten kho"
+         << "Dia chi\n";
+    cout << string(70,'-') << "\n";
+    for (int i=0;i<Warehouse_List.getsize();i++){
+        cout << left
+             << setw(5) << i+1
+             << setw(8) << Warehouse_List[i].Get_ID()
+             << setw(25) << Warehouse_List[i].Get_Name()
+             << Warehouse_List[i].Get_Address() << "\n";
+    }
+    cout << string(70,'-') << "\n";
+    kho:
+    while (true){
+        cout<<"=> Nhap STT kho (0 de quay lai): ";
+        int stt;
+        if (!(cin>>stt)){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout<<"Lua chon khong hop le. Vui long thu lai.\n";
+            goto kho;
+        }
+        cin.ignore();
+        if (stt==0) {
+            clear_screen();
+            main_menu();
+        }
+        if (stt<1 || stt>Warehouse_List.getsize()){
+            cout<<"STT hop le. Vui long thu lai.\n";
+            goto kho;
+        }
+        Warehouse tmp;
+        w=tmp.Find_by_Address(Warehouse_List,Warehouse_List[stt-1].Get_Address());
+        cout<<"Da chon kho: "<<w.Get_Name()<<" ("<<w.Get_Address()<<")\n";
+        break;
+    }
+}
 void clear_screen(){
     std::this_thread::sleep_for(std::chrono::seconds(2));
 #ifdef _WIN32
@@ -76,9 +125,7 @@ void user_sign_in(User &cur_User,Vector <User>&v){
         return;
     }
     cout<<"Da dang nhap thanh cong!\n";
-    Warehouse tmp;
-    a=tmp.Find_by_Address(Warehouse_List,cur_User.getAddress());
-    a.ProductList(inWarehouse);
+    choose_warehouse(a);
 }
 void employee_sign_in(Employee &cur_Employee,const Vector<Employee>& v){
         string username,password;
@@ -157,4 +204,22 @@ bool timChuoi(const string &a, const string &b) {
     if (B.find(A) != string::npos) 
         return true;
     return false;
+}
+bool _date(const string& date) {
+    if (date.size()!=10) return false; // kiểm tra đúng định dạng đầu vào
+    if (date[2]!='/' || date[5]!='/') return false; //kiểm tra đúng định dạng đầu vào
+    for (int i=0;i<10;i++){
+        if (i==2 || i==5) continue;
+        if (!isdigit(static_cast<unsigned char>(date[i]))) return false; // đưa hết toàn bộ chuỗi vào 1 chuỗi mới
+    }
+    int d = stoi(date.substr(0,2));
+    int m = stoi(date.substr(3,2));
+    int y = stoi(date.substr(6,4));
+    if (y < 2023 || y > 2025) return false;
+    if (m < 1 || m > 12) return false;
+    int daysInMonth[] = {31, (y%4==0 && y%100!=0) || (y%400==0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if (d < 1 || d > daysInMonth[m-1]) return false;
+    if (y == 2023 && (m < 1 || (m == 1 && d < 1))) return false;
+    if (y == 2025 && (m > 12 || (m == 12 && d > 31))) return false;
+    return true;
 }

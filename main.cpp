@@ -6,7 +6,7 @@
 #include "purchaseorder.h"
 #include "customerorder.h"
 #include "chitietphieunhap.h"
-
+#include "chitiethoadon.h"
 using namespace std;
 
 //biến toàn cục 
@@ -18,6 +18,7 @@ using namespace std;
     Vector<PurchaseOrder> PurchaseOrder_List;
     Vector<CustomerOrder> CustomerOrder_List;
     Vector <ChitietPhieunhap> hoadon_List;
+    Vector <CTHD> dshoadon;
     Warehouse a;
     User current_User;
     Employee current_Employee;
@@ -31,7 +32,8 @@ int main() {
     Employee e;e.readfile(Employee_List);
     ChitietPhieunhap ctp;ctp.ReadFile(hoadon_List);
     PurchaseOrder pu;pu.Readfile(PurchaseOrder_List);
-    CustomerOrder c;c.readFile(CustomerOrder_List); 
+    CustomerOrder c;c.Readfile(CustomerOrder_List); 
+    CTHD ct; ct.Readfile(dshoadon);
 
     // menu dang nhap
     main_menu();
@@ -43,5 +45,6 @@ int main() {
     e.savefile(Employee_List);
     pu.Savefile(PurchaseOrder_List);
     ctp.SaveFile(hoadon_List);
-    c.saveFile(CustomerOrder_List);
+    c.Savefile(CustomerOrder_List);
+    ct.Savefile(dshoadon);
 }

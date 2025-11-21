@@ -1,9 +1,9 @@
-P001,Chuot Logitech G102,Thiet bi ngoai vi,150000,103,41,,
-P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,18,32,16/11/2025,17/12/2024
+P001,Chuot Logitech G102,Thiet bi ngoai vi,150000,113,41,,
+P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,24,32,,
 P003,Man hinh Dell 24 inch,Man hinh,3500000,21,32,21/12/2023,15/02/2025
 P004,Tai nghe Sony WH1000XM4,Am thanh,4900000,44,100,21/12/2023,15/02/2025
 P005,USB Kingston 32GB,Phu kien,250000,10,20,21/12/2023,15/02/2025
-P001,Chuot Logitech G102,Thiet bi ngoai vi,150000,103,41,,
-P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,18,32,16/11/2025,17/12/2024
+P001,Chuot Logitech G102,Thiet bi ngoai vi,150000,113,41,,
+P002,Ban phim Keychron K6,Thiet bi ngoai vi,2200000,24,32,,
 P003,Man hinh Dell 24 inch,Man hinh,3500000,36,40,12/11.2025,12/12/2025
 P006,May tinh bo tui,Dung cu hoc tap,100000,0,22,,

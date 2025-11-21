@@ -16,7 +16,6 @@ PurchaseOrder::PurchaseOrder() : id(0), employeeID(0), warehouseID(0), sum(0) {}
 PurchaseOrder::~PurchaseOrder() {}
 
 void PurchaseOrder::Readfile(Vector<PurchaseOrder>& v){
-    //bool needImportDetails = (hoadon_List.getsize()==0);
     ifstream file("phieunhap.txt");
     string line;
     while (getline(file,line)){
@@ -33,27 +32,6 @@ void PurchaseOrder::Readfile(Vector<PurchaseOrder>& v){
                 case 2: order.date=s; break;
                 case 3: order.sum=stoul(s); break;
                 case 4: order.warehouseID=stoi(s); break;
-                /*default:
-                    if (needImportDetails && s.front()=='(' && s.back()==')'){
-                        size_t semi=s.find(';');
-                        if (semi!=string::npos){
-                            string productID=s.substr(1,semi-1);
-                            string qtyStr=s.substr(semi+1,s.length()-semi-2);
-                            int qty=stoi(qtyStr);
-                            int unitPrice=0;
-                            Product finder;
-                            try{
-                                Product& pr=finder.Find_byid(productID,Product_List);
-                                unitPrice=pr.Get_price();
-                            }catch(const runtime_error&){
-                                unitPrice=0;
-                            }
-                            ChitietPhieunhap detail;
-                            detail.SetDetail(order.id,productID,qty,unitPrice);
-                            hoadon_List.push_back(detail);
-                        }
-                    }
-                    break;*/
             }
             i++;
         }
@@ -81,8 +59,11 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder>& v){
     newOrder.employeeID = current_Employee.getEmployeeID();
 
     cout<<"===== TAO PHIEU NHAP =====\n";
-    cout<<"Nhap ngay nhap (dd/mm/yyyy): ";
-    getline(cin,newOrder.date);
+    do{
+        cout<<"Nhap ngay nhap (dd/mm/yyyy): ";
+        getline(cin,newOrder.date);
+        if (!_date(newOrder.date)) cout<<"[Thong bao] Ngay khong hop le. Vui long nhap lai.\n";
+    } while(!_date(newOrder.date));
     cout<<"Nhap ma kho: ";
     cin>>newOrder.warehouseID;
     cin.ignore();

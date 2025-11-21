@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "map.h"
 #include "vector.h"
 #include <string>

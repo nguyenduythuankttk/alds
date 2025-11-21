@@ -104,3 +104,5 @@ int Warehouse::Get_Inventory_size() const{return this->Inventory.Get_Size();}
 string Warehouse::Get_Product_id(const int &i) const{
     return this->Inventory.getKey(i);
 }
+string Warehouse::Get_Address() const{return this->address;}
+int Warehouse::Get_ID() const{ return this->id;}

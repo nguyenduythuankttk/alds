@@ -57,14 +57,15 @@ void Employee::employee_menu() const{
     cout << "| 2 | Tao phieu nhap                               |\n";
     cout << "| 3 | Xem danh sach nhan vien                      |\n";
     cout << "| 4 | San pham noi bat                             |\n";
-    cout << "| 5 | Thong ke don hang trong ngay                 |\n";
-    cout << "| 6 | Danh sach don hang ton kho                   |\n";
-    cout << "| 7 | San pham can nhap them                       |\n";
-    cout << "| 8 | Dieu chinh gia ban san pham                  |\n";
-    cout << "| 9 | Dang xuat                                    |\n";
+    cout << "| 5 | Thong ke don nhap trong ngay                 |\n";
+    cout << "| 6 | Thong ke don ban ra trong ngay               |\n";
+    cout << "| 7 | Danh sach don hang ton kho                   |\n";
+    cout << "| 8 | San pham can nhap them                       |\n";
+    cout << "| 9 | Dieu chinh gia ban san pham                  |\n";
+    cout << "| 10| Dang xuat                                    |\n";
     cout << "----------------------------------------------------\n";
     int lc;
-    cout<<"=> Moi lua chon (1-9): ";cin>>lc;cin.ignore();
+    cout<<"=> Moi lua chon (1-10): ";cin>>lc;cin.ignore();
     switch (lc){
         case 1:{
             int s;
@@ -76,11 +77,11 @@ void Employee::employee_menu() const{
             cout<<"Nhap id nguoi dung:";cin>>s;cin.ignore();
             if (u.find_by_id(s)) {
                 u=tmp.id(s);
-                co.order_by(u,CustomerOrder_List,result);
+                co.order_by(CustomerOrder_List,result,u.GetID());
                 for (int i=0;i<result.getsize();i++) result[i].show();
                 string s;
                 cout<<"Nhap Enter quay lai";getline(cin,s);
-                current_Employee.employee_menu();
+                goto menu;
             }
             else {
                 char c;
@@ -95,26 +96,28 @@ void Employee::employee_menu() const{
         case 2:{
             PurchaseOrder pu;
             pu.create_PurchaseOrder(PurchaseOrder_List);
-            string s;
-            cout<<"Nhan Enter de quay lai";getline(cin,s);
-            current_Employee.employee_menu();
-            break;
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            goto menu;
         }
         case 3:{
             for (int i=0;i<Employee_List.getsize();i++)
                 Employee_List[i].ShowInfo();
-            string s;
-            cout<<"Nhan Enter de quay lai";getline(cin,s);
-            current_Employee.employee_menu();
-            break;
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            goto menu;
         }
         case 4:{
             Product p;
             Vector<Product> list;
             p.sx(Product_List, list);
-            
-            string s; 
-
+            string s;
             cout << "\n=== SAN PHAM NOI BAT (TOP 5) ===\n";
             if (list.getsize() == 0) {
                 cout << "Khong co san pham nao.\n";
@@ -134,16 +137,18 @@ void Employee::employee_menu() const{
                 list[i].showinfo();
             }
             cout<<"Nhan Enter de quay lai";getline(cin,s);
-            current_Employee.employee_menu();
-            break;
+            goto menu;
         }
         case 5:{
-            string date,s;
-            cout<<"Nhap ngay thang nam(dd/mm/yyyy):";getline(cin,date);
+            string date;
+            do{
+                cout<<"Nhap ngay thang nam(dd/mm/yyyy):";
+                getline(cin,date);
+                if (!_date(date)) cout<<"[Thong bao] Ngay khong hop le. Vui long nhap lai.\n";
+            }while(!_date(date));
             Vector <PurchaseOrder> r1;
-            Vector <CustomerOrder> r2;
-            PurchaseOrder p1;CustomerOrder c1;
-            int sum1=0,sum2=0;
+            PurchaseOrder p1;
+            int sum1=0;
             cout<<"\n=== DON NHAP TRONG NGAY ===\n";
             p1.order_date(PurchaseOrder_List,r1,date);
             if (r1.getsize()==0) {
@@ -169,7 +174,45 @@ void Employee::employee_menu() const{
                 }
             }
             cout<<"Tong chi phi nhap trong ngay: "<<sum1<<endl;
-
+            while (true){
+                cout<<"Nhap ma phieu nhap de xem chi tiet (Enter de quay lai): ";
+                string input;
+                getline(cin,input);
+                if (input=="") break;
+                bool handled=false;
+                try{
+                    int id=stoi(input);
+                    for (int i=0;i<r1.getsize();i++){
+                        if (r1[i].GetID()==id){
+                            ChitietPhieunhap::show(hoadon_List,id);
+                            handled=true;
+                            break;
+                        }
+                    }
+                    if (!handled){
+                        cout<<"Khong tim thay ma trong danh sach ngay "<<date<<".\n";
+                    }
+                }catch(const invalid_argument&){
+                    cout<<"Ma khong hop le.\n";
+                }
+            }
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            goto menu;
+        }
+        case 6:{
+            string date;
+            do{
+                cout<<"Nhap ngay thang nam(dd/mm/yyyy):";
+                getline(cin,date);
+                if (!_date(date)) cout<<"[Thong bao] Ngay khong hop le. Vui long nhap lai.\n";
+            }while(!_date(date));
+            Vector <CustomerOrder> r2;
+            CustomerOrder c1;
+            int sum2=0;
             cout<<"\n=== HOA DON BAN TRONG NGAY ===\n";
             c1.order_date(CustomerOrder_List,r2,date);
             if (r2.getsize()==0) {
@@ -189,46 +232,39 @@ void Employee::employee_menu() const{
                 }
             }
             cout<<"Tong doanh thu trong ngay: "<<sum2<<endl;
-
             while (true){
-                cout<<"Nhap ma phieu/hoa don de xem chi tiet (Enter de quay lai): ";
+                cout<<"Nhap ma hoa don de xem chi tiet (Enter de quay lai): ";
                 string input;
                 getline(cin,input);
                 if (input=="") break;
                 bool handled=false;
                 try{
                     int id=stoi(input);
-                    for (int i=0;i<r1.getsize();i++){
-                        if (r1[i].GetID()==id){
-                            ChitietPhieunhap::show(hoadon_List,id);
+                    for (int i=0;i<r2.getsize();i++){
+                        if (r2[i].GetID()==id){
+                            r2[i].show();
                             handled=true;
                             break;
                         }
                     }
                     if (!handled){
-                        for (int i=0;i<r2.getsize();i++){
-                            if (r2[i].GetID()==id){
-                                r2[i].show();
-                                handled=true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!handled){
-                        cout<<"Khong tim thay ma trong danh sach ngay "<<date<<".\n";
+                        cout<<"Khong tim thay hoa don trong danh sach ngay "<<date<<".\n";
                     }
                 }catch(const invalid_argument&){
                     cout<<"Ma khong hop le.\n";
                 }
             }
-            cout<<"Nhan Enter de quay lai";getline(cin,s);
-            current_Employee.employee_menu();
-            break;
-        }
-        case 6:{
-            break;
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            goto menu;
         }
         case 7:{
+            break;
+        }
+        case 8:{
             int id;
             Vector<Product> pr;
             cout<<"Nhap ma kho can xem thong tin:";cin>>id;cin.ignore();
@@ -244,7 +280,7 @@ void Employee::employee_menu() const{
             t.Show(pr);
             break;
         }
-        case 8:{
+        case 9:{
             Product p,t;
             string s;
             int pr;
@@ -253,11 +289,14 @@ void Employee::employee_menu() const{
             p=t.Find_byid(s,Product_List);
             p.Set_price(pr);
             cout<<"Da thay doi gia thanh cong";
-            cout<<"Nhan Enter de tro ve";getline(cin,s);
-            current_Employee.employee_menu();
-            break;
+            cout<<"Nhan Enter de tro ve";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            goto menu;
         }
-        case 9:{
+        case 10:{
             main_menu();
             break;
         }
