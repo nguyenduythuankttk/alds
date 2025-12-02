@@ -146,7 +146,7 @@ void CustomerOrder::create_Order(Vector <CustomerOrder>&v){
         productPtr->Set_last_sold(newOrder.orderDate);
         long long lineTotal=static_cast<long long>(unitPrice)*quantity;
         newOrder.sum+=lineTotal;
-        dshoadon.push_back(CTHD(newOrder.id,productID,quantity,unitPrice));
+        dshoadon.push_back(CTHD(newOrder.id,productID,productPtr->Get_Name(),quantity,unitPrice));
         hasItem=true;
         cout<<"Da them: "<<productID<<" x"<<quantity<<" (Gia "<<unitPrice<<")\n";
     }
@@ -178,12 +178,13 @@ void CustomerOrder::show() const{
 
     cout<<left
         <<setw(5)<<"STT"
-        <<setw(20)<<"Ma SP"
+        <<setw(12)<<"Ma SP"
+        <<setw(25)<<"Ten san pham"
         <<setw(12)<<"So luong"
         <<setw(15)<<"Don gia"
         <<setw(15)<<"Thanh tien"
         <<endl;
-    cout<<string(67,'-')<<endl;
+    cout<<string(84,'-')<<endl;
     bool found=false;
     int stt=1;
     for (int i=0;i<dshoadon.getsize();i++){

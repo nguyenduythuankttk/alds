@@ -3,11 +3,13 @@
 #include <limits.h>
 #include <iomanip>
 #include <tuple>
-Product::Product() {}
-Product::Product(const string &Name, const string &id, const int &price, const string &cat,const int&nhap,const int&ban,const string& last1,const string& last2)
-    : price(price), category(cat), name(Name), id(id), bought(nhap), sold(ban),last_bought(last1),last_sold(last2) {}
+#include <vector>
+Product::Product() : price(0), import_price(0), sold(0), bought(0) {}
+Product::Product(const string &Name, const string &id, const int &price, const int &importPrice, const string &cat,const int&nhap,const int&ban,const string& last1,const string& last2)
+    : price(price), import_price(importPrice), category(cat), name(Name), id(id), bought(nhap), sold(ban),last_bought(last1),last_sold(last2) {}
 Product::Product(const Product& p) {
     this->price = p.price;
+    this->import_price = p.import_price;
     this->id = p.id;
     this->name = p.name;
     this->category = p.category;
@@ -37,6 +39,7 @@ string Product::Get_ID() const { return this->id; }
 string Product::Get_Name() const { return this->name; }
 string Product::Get_Cat() const { return this->category; }
 int Product::Get_price() const { return this->price; }
+int Product::Get_import_price() const { return this->import_price; }
 int Product::Get_Bought() const{return this->bought;}
 int Product::Get_Sold() const {return this->sold;} 
 
@@ -44,6 +47,12 @@ void Product::Set_price(const int& price) {
     this->price=price;
     for (int i=0;i<Product_List.getsize();i++)
         if (Product_List[i].id==this->id) Product_List[i]=*(this);
+}
+void Product::Set_import_price(const int& price) {
+    this->import_price=price;
+    for (int i=0;i<Product_List.getsize();i++)
+        if (Product_List[i].id==this->id)
+            Product_List[i]=*(this);
 }
 void Product::Add_sold(const int& qty){
     this->sold+=qty;
@@ -120,33 +129,49 @@ void Product::savefile(const Vector<Product>& v) {
              << v[i].name << "," 
              << v[i].category << "," 
              << v[i].price << ","
-             <<v[i].sold<< ","
-             <<v[i].bought<<","
-             <<v[i].last_sold<<","
+             << v[i].import_price << ","
+             << v[i].sold << ","
+             << v[i].bought << ","
+             <<v[i].last_sold<<"," 
              <<v[i].last_bought<<"\n";
     }
 }
 
 void Product::readfile(Vector<Product>& v) {
     ifstream file("product.txt");
-    string s;
-    int i;
-    while (getline(file, s)) {
+    string line;
+    while (getline(file, line)) {
+        if (line == "") continue;
         Product p;
-        if (s == "") continue;
-        i = 0;
-        stringstream sub(s);
-        while (getline(sub, s, ',')) {
-            if (i == 0) p.id = s;
-            else if (i == 1) p.name = s;
-            else if (i == 2) p.category = s;
-            else if (i == 3) p.price = stoi(s);
-            else if (i==4) p.sold=stoi(s);
-            else if (i==5) p.bought=stoi(s);
-            else if (i==6) p.last_sold=s;
-            else if (i==7) p.last_bought=s;
-            i++;
+        vector<string> tokens;
+        string token;
+        stringstream sub(line);
+        while (getline(sub, token, ',')) tokens.push_back(token);
+        if (tokens.size() < 4) continue;
+        size_t idx = 0;
+        p.id = tokens[idx++];
+        if (idx < tokens.size()) p.name = tokens[idx++]; else p.name="";
+        if (idx < tokens.size()) p.category = tokens[idx++]; else p.category="";
+        if (idx < tokens.size()) {
+            const string &val = tokens[idx++];
+            p.price = val.empty()?0:stoi(val);
+        } else p.price = 0;
+        if (tokens.size() >= 9 && idx < tokens.size()) {
+            const string &val = tokens[idx++];
+            p.import_price = val.empty()?0:stoi(val);
+        } else {
+            p.import_price = p.price;
         }
+        if (idx < tokens.size()) {
+            const string &val = tokens[idx++];
+            p.sold = val.empty()?0:stoi(val);
+        } else p.sold = 0;
+        if (idx < tokens.size()) {
+            const string &val = tokens[idx++];
+            p.bought = val.empty()?0:stoi(val);
+        } else p.bought = 0;
+        if (idx < tokens.size()) p.last_sold = tokens[idx++]; else p.last_sold="";
+        if (idx < tokens.size()) p.last_bought = tokens[idx++]; else p.last_bought="";
         v.push_back(p);
     }
 }
@@ -158,8 +183,10 @@ void Product::Add_Product(Vector<Product>& v, const string& ID) {
     getline(cin, this->name);
     cout << "Nhap loai san pham: ";
     getline(cin, this->category);
-    cout << "Nhap gia: ";
+    cout << "Nhap gia ban: ";
     cin >> this->price;
+    cout << "Nhap gia nhap: ";
+    cin >> this->import_price;
     cin.ignore();
     this->bought=0;
     this->sold=0;

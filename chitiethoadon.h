@@ -9,6 +9,7 @@ class CTHD {
 private:
     int invoiceID;
     string IDProduct;
+    string productName;
     int quantity;
     int Price;
     int totalPrice;
@@ -16,9 +17,10 @@ private:
 public:
     
     CTHD();
-    CTHD(int invoiceID, string IDProduct, int quantity, int Price);
+    CTHD(int invoiceID, string IDProduct, string productName, int quantity, int Price);
     int getInvoiceID() const;
     string getIDProduct() const;
+    string getProductName() const;
     int getQuantity() const;
     int getPrice() const;
     int getTotalPrice() const;

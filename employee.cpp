@@ -31,9 +31,9 @@ void Employee::readfile(Vector<Employee>& v){
         stringstream sub(line);
         string token;
         Employee e;
-        int idx=0;
+        int i=0;
         while (getline(sub,token,',')){
-            switch(idx){
+            switch(i){
                 case 0: e.employeeID=stoi(token); break;
                 case 1: e.username=token; break;
                 case 2: e.password=token; break;
@@ -42,7 +42,7 @@ void Employee::readfile(Vector<Employee>& v){
                 case 5: e.email=token; break;
                 case 6: e.address=token; break;
             }
-            idx++;
+            i++;
         }
         v.push_back(e);
     }
@@ -72,7 +72,8 @@ void Employee::employee_menu() const{
     cout << "| 7 | Danh sach don hang ton kho                   |\n";
     cout << "| 8 | San pham can nhap them                       |\n";
     cout << "| 9 | Dieu chinh gia ban san pham                  |\n";
-    cout << "| 10| Dang xuat                                    |\n";
+    cout << "| 10| Xem danh sach nguoi dung                     |\n";
+    cout << "| 11| Dang xuat                                    |\n";
     cout << "----------------------------------------------------\n";
     int lc;
     cout<<"=> Moi lua chon (1-10): ";cin>>lc;cin.ignore();
@@ -157,7 +158,7 @@ void Employee::employee_menu() const{
         }
         case 3:{
             cout<<"\n=== DANH SACH NHAN VIEN ===\n";
-            if (Employee_List.getsize()==0){
+            if (User_List.getsize()==0){
                 cout<<"Khong co nhan vien nao.\n";
             } else {
                 cout<<left
@@ -294,24 +295,25 @@ void Employee::employee_menu() const{
             } else {
                 cout<<left
                     <<setw(6)<<"ID"
-                    <<setw(5)<<"ID ND"
+                    <<setw(10)<<"ID ND"
+                    <<setw(10)<<"Kho"
                     <<setw(15)<<"Tong tien"
                     <<endl;
-                cout<<string(26,'-')<<endl;
+                cout<<string(41,'-')<<endl;
                 for (int i=0;i<r2.getsize();i++){
                     cout<<left
                         <<setw(6)<<r2[i].getID()
+                        <<setw(10)<<r2[i].GetCustomerID()
+                        <<setw(10)<<r2[i].GetWarehouseID()
                         <<setw(15)<<r2[i].getsum()
                         <<endl;
                     sum2+=r2[i].getsum();
                 }
             }
             cout<<"Tong doanh thu trong ngay: "<<sum2<<endl;
-            string input="";
-            idx:
             while (true){
                 cout<<"Nhap ma hoa don de xem chi tiet (Enter de quay lai): ";
-                
+                string input;
                 getline(cin,input);
                 if (input=="") break;
                 bool handled=false;
@@ -331,7 +333,6 @@ void Employee::employee_menu() const{
                     cout<<"Ma khong hop le.\n";
                 }
             }
-            if (input=="") goto idx;
             cout<<"Nhan Enter de quay lai";
             {
                 string tmp;
@@ -415,9 +416,43 @@ void Employee::employee_menu() const{
             clear_screen();
             goto menu;
         }
-        case 10:{
+        case 11:{
             clear_screen();
             main_menu();
+            break;
+        }
+        case 10:{
+            cout<<"\n=== DANH SACH NGUOI DUNG ===\n";
+            if (User_List.getsize()==0){
+                cout<<"Khong co nguoi dung nao.\n";
+            } else {
+                cout<<left
+                    <<setw(6)<<"ID"
+                    <<setw(20)<<"Tai khoan"
+                    <<setw(20)<<"Ho ten"
+                    <<setw(15)<<"SDT"
+                    <<setw(25)<<"Email"
+                    <<setw(25)<<"Dia chi"
+                    <<endl;
+                cout<<string(111,'-')<<endl;
+                for (int i=0;i<User_List.getsize();i++){
+                    cout<<left
+                        <<setw(6)<<User_List[i].GetID()
+                        <<setw(20)<<User_List[i].Getusername()
+                        <<setw(20)<<User_List[i].GetFullname()
+                        <<setw(15)<<User_List[i].GetPhone()
+                        <<setw(25)<<User_List[i].GetEmail()
+                        <<setw(25)<<User_List[i].GetAddress()
+                        <<endl;
+                }
+            }
+            cout<<"Nhan Enter de tro ve"<<endl;
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            clear_screen();
+            goto menu;
             break;
         }
     }

@@ -1,3 +1,20 @@
 0,ord,ord,Nguyen Van A,0901234567,ord@example.com,Da Nang
 1,o,o,Tran Thi B,0912345678,o@example.com,Ha Noi
 2,ad,ad,Le Van C,0987654321,ad@example.com,TP HCM
+3,emp03,pass03,Pham Quoc Dung,0933111222,dung.pham@example.com,Da Nang
+4,emp04,pass04,Nguyen Thi Hoa,0944222333,hoa.nguyen@example.com,Ha Noi
+5,emp05,pass05,Le Bao Lam,0955333444,lam.le@example.com,Quang Nam
+6,emp06,pass06,Vo Gia Huy,0966444555,huy.vo@example.com,Da Nang
+7,emp07,pass07,Do Hai Yen,0977555666,yen.do@example.com,Ha Noi
+8,emp08,pass08,Tran Minh Chau,0988666777,chau.tran@example.com,Bac Ninh
+9,emp09,pass09,Bui Thanh Dat,0911777888,dat.bui@example.com,Can Tho
+10,emp10,pass10,Hoang Thi Xuan,0922888999,xuan.hoang@example.com,Hai Phong
+11,emp11,pass11,Nguyen Viet Phong,0933999000,phong.nguyen@example.com,Da Nang
+12,emp12,pass12,Pham Thu Ha,0944888111,ha.pham@example.com,Hue
+13,emp13,pass13,Le Nhat Long,0955778222,long.le@example.com,TP HCM
+14,emp14,pass14,Vu Duc Tu,0966888333,tu.vu@example.com,Binh Duong
+15,emp15,pass15,Trinh Quoc Khanh,0977998444,khanh.trinh@example.com,Ha Noi
+16,emp16,pass16,Doan Thi Kim Anh,0988008555,kimanh.doan@example.com,Nha Trang
+17,emp17,pass17,Ho Sy Nam,0911333666,nam.ho@example.com,Vinh
+18,emp18,pass18,Tran Bao Khanh,0922444777,baokhanh.tran@example.com,Da Nang
+19,emp19,pass19,Nguyen Quynh Giao,0933555888,giao.nguyen@example.com,Quang Ngai

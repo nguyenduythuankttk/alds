@@ -122,19 +122,19 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder>& v){
             productPtr = &finder.Find_byid(productID, Product_List);
         }
 
-        int unitPrice = productPtr->Get_price();
+        int importPrice = productPtr->Get_import_price();
         warehouse.Add_Product(productID, quantity);
         productPtr->Add_bought(quantity);
         productPtr->Set_last_bought(newOrder.date);
-        long long lineTotal = static_cast<long long>(unitPrice)*quantity;
+        long long lineTotal = static_cast<long long>(importPrice)*quantity;
         newOrder.sum += lineTotal;
 
         ChitietPhieunhap detail;
-        detail.SetDetail(newOrder.id, productID, quantity, unitPrice);
+        detail.SetDetail(newOrder.id, productID, quantity, importPrice);
         hoadon_List.push_back(detail);
         hasItem=true;
 
-        cout<<"Da them: "<<productID<<" x"<<quantity<<" (Gia "<<unitPrice<<")\n";
+        cout<<"Da them: "<<productID<<" x"<<quantity<<" (Gia nhap "<<importPrice<<")\n";
     }
 
     if (!hasItem){

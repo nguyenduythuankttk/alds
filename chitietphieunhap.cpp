@@ -49,7 +49,7 @@ void ChitietPhieunhap::show(const Vector<ChitietPhieunhap>& v, int orderID){
     cout<<left
         <<setw(12)<<"Ma SP"
         <<setw(10)<<"So luong"
-        <<setw(12)<<"Don gia"
+        <<setw(12)<<"Gia nhap"
         <<setw(14)<<"Thanh tien"
         <<endl;
     cout<<string(48,'-')<<endl;

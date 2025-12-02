@@ -8,6 +8,7 @@ class Product {
         string category;
         string id;
         int price;
+        int import_price;
         int sold;
         int bought;
         string last_bought;
@@ -15,11 +16,12 @@ class Product {
 
     public:
         Product();
-        Product(const string&, const string&, const int&, const string&,const int&,const int&,const string&,const string&);
+        Product(const string&, const string&, const int&, const int&, const string&,const int&,const int&,const string&,const string&);
         Product(const Product&);
         ~Product();
 
         int Get_price() const;
+        int Get_import_price() const;
         string Get_ID() const;
         string Get_Name() const;
         string Get_Cat() const;
@@ -30,6 +32,7 @@ class Product {
         bool Is_Inventory_Product(const string& currentDate) const;
 
         void Set_price(const int&);
+        void Set_import_price(const int&);
         void Set_last_bought(const string&);
         void Set_last_sold(const string&);
 

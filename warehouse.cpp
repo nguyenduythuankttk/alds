@@ -58,6 +58,12 @@ void Warehouse::Add_Product(const string& productID, const int &qty){
         if (Inventory.getKey(i)==productID) {
             int &value=Inventory.getValue(i);
             value+=qty;
+            for (int j=0;j<Warehouse_List.getsize();j++){
+                if (this->id==Warehouse_List[j].id) {
+                    Warehouse_List[j]=*(this);
+                    break;
+                }
+            }
             return;
         }
     }

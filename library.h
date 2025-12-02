@@ -14,6 +14,7 @@
     class CustomerOrder;
     class ChitietPhieunhap;
     class CTHD;
+    
     extern Vector<Warehouse> Warehouse_List;  
     extern Vector<Product> Product_List;
     extern Vector<Product> inWarehouse;

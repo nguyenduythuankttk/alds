@@ -151,8 +151,8 @@ void User::user_menu() const{
             cout<<"Nhap thong tin san pham.Nhap '-1' de bo qua \n";
             cout<<"Ten san pham:";getline(cin,name);
             cout<<"Loai san pham:"; getline(cin,category);
-            cout<<"Gia thap nhat";cin>>min;cin.ignore();
-            cout<<"Gia cao nhat";cin>>max;cin.ignore();
+            cout<<"Gia thap nhat:";cin>>min;cin.ignore();
+            cout<<"Gia cao nhat:";cin>>max;cin.ignore();
             Product p;
             Vector <Product> result;
             Warehouse tmp;
@@ -205,7 +205,7 @@ void User::user_menu() const{
                 cout<<"Nhap ID hoa don de xem chi tiet (Enter de quay lai): ";
                 string input;
                 getline(cin,input);
-                if (input=="") break;
+                if (input=="") goto option;
                 try{
                     int id=stoi(input);
                     bool found=false;
