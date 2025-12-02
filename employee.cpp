@@ -9,6 +9,7 @@
 #include "product.h"
 #include "warehouse.h"
 #include "chitietphieunhap.h"
+#include "thongke.h"
 #include <iomanip>
 Employee::Employee(){}
 Employee::Employee(const int&ID,const string& username,const string& password,const string& fullname,const string& phone,const string& email,const string& address):
@@ -72,11 +73,13 @@ void Employee::employee_menu() const{
     cout << "| 7 | Danh sach don hang ton kho                   |\n";
     cout << "| 8 | San pham can nhap them                       |\n";
     cout << "| 9 | Dieu chinh gia ban san pham                  |\n";
-    cout << "| 10| Xem danh sach nguoi dung                     |\n";
-    cout << "| 11| Dang xuat                                    |\n";
+    cout << "|10 | Xem danh sach nguoi dung                     |\n";
+    cout << "|11 | Xem thong ke don hang trong thang            |\n";
+    cout << "|12 | Xem thong ke don hang trong nam              |\n";
+    cout << "|13 | Dang xuat                                    |\n";
     cout << "----------------------------------------------------\n";
     int lc;
-    cout<<"=> Moi lua chon (1-10): ";cin>>lc;cin.ignore();
+    cout<<"=> Moi lua chon (1-12): ";cin>>lc;cin.ignore();
     switch (lc){
         case 1:{
             int s;
@@ -416,11 +419,6 @@ void Employee::employee_menu() const{
             clear_screen();
             goto menu;
         }
-        case 11:{
-            clear_screen();
-            main_menu();
-            break;
-        }
         case 10:{
             cout<<"\n=== DANH SACH NGUOI DUNG ===\n";
             if (User_List.getsize()==0){
@@ -453,6 +451,53 @@ void Employee::employee_menu() const{
             }
             clear_screen();
             goto menu;
+            break;
+        }
+        case 12:{
+            int y;
+            cout<<"Nhap nam";
+            cin>>y;
+            while (y<2023 || y>2025){
+                cout<<"Nam khong hop le!Vui long nhap lai.";
+                cin>>y;
+            }
+            Thongke a[12];
+            for (int i=0;i<12;i++){
+                Thongke monthly;
+                a[i]=monthly.Tke_doanhthu(i+1,y);
+            }
+            cout<<"\n=== THONG KE DON NHAP/XUAT TRONG NAM ===\n";
+            cout<<left
+                <<setw(8)<<"Thang"
+                <<setw(12)<<"SL nhap"
+                <<setw(12)<<"SL xuat"
+                <<setw(18)<<"Tien nhap"
+                <<setw(18)<<"Tien xuat"
+                <<setw(18)<<"Doanh thu"
+                <<endl;
+            cout<<string(86,'-')<<endl;
+            for (int i=0;i<12;i++){
+                cout<<left
+                    <<setw(8)<<i+1
+                    <<setw(12)<<a[i].GetSLDonNhap()
+                    <<setw(12)<<a[i].GetSLDonXuat()
+                    <<setw(18)<<a[i].GetTienNhap()
+                    <<setw(18)<<a[i].GetTienXuat()
+                    <<setw(18)<<a[i].GetDoanhThu()
+                    <<endl;
+            }
+            cout<<"Nhan Enter de quay lai";
+            {
+                string tmp;
+                getline(cin,tmp);
+            }
+            clear_screen();
+            goto menu;
+            break;
+        }
+        case 13:{
+            clear_screen();
+            main_menu();
             break;
         }
     }
