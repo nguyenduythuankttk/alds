@@ -38,4 +38,5 @@
     void choose_warehouse(Warehouse &);
     bool _date(const string&);
     bool parse_date(const string&,int out[3]);
+    void forget_password();
 

@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <exception>
 User::User(){}
 User::User(const int&ID,const string& username,const string& password,const string &fullname,const string& phone,const string& email,const string &address):
     Person(username,password,fullname,phone,email,address),userID(ID){}
@@ -248,4 +249,16 @@ User& User::id(const int &ID) const{
         if (ID==User_List[i].userID) return User_List[i];
     }
     return User_List[User_List.getsize()-1];
+}
+User& User::Numberphone(const string &number) const{
+    for (int i=0;i<User_List.getsize()-1;i++){
+        if (number==User_List[i].phone) return User_List[i];
+    }
+    throw (runtime_error("So dien thoai khong trung khop") );
+}
+User& User::Username(const string &name) const{
+    for (int i=0;i<User_List.getsize()-1;i++){
+        if (name==User_List[i].username) return User_List[i];
+    }
+    throw (runtime_error("Ten dang nhap khong trung khop") );
 }

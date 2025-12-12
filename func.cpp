@@ -121,9 +121,9 @@ void user_sign_in(User &cur_User,Vector <User>&v){
     }while (count<3 && b==false);
     if (count>=3){
         char c;
-        cout<<"Tai khoan chua ton tai.Tao tai khoan?(Y/N)";cin>>c;cin.ignore();
+        cout<<"Quen mat khau?";cin>>c;cin.ignore();
         c=toupper(c);
-        if (c=='Y') sign_up(v);
+        if (c=='Y') forget_password();
         else main_menu();
         return;
     }
@@ -238,4 +238,34 @@ bool _date(const string& date) {
     if (y == 2023 && (m < 1 || (m == 1 && d < 1))) return false;
     if (y == 2025 && (m > 12 || (m == 12 && d > 31))) return false;
     return true;
+}
+void forget_password(){
+    string s;
+    User *ptr=0;
+    cout<<"Nhap so dien thoai hoac ten dang nhap:";getline(cin,s);
+    try {
+        User tmp;
+        ptr=&tmp.Numberphone(s);
+    } catch(...){
+
+    }
+    try{
+        User tmp;
+        ptr=&tmp.Username(s);
+    }catch (...){
+
+    }
+    if (ptr==nullptr) {
+        cout<<"Nguoi dung nay khong ton tai.Vui long tao tai khoan moi!";
+        clear_screen();
+        main_menu();
+    }
+    else {
+        string s,st;
+        do{
+            cout<<"Nhap mat khau moi:";getline(cin,s);
+            cout<<"Xac nhan mat khau moi:";getline(cin,st);  
+        }while (s!=st);
+        ptr->Setpassword(s);
+    }
 }

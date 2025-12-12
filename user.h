@@ -22,4 +22,6 @@ class User:public Person{
         void user_menu() const;
         bool find_by_id(const int&) const;
         User& id(const int&) const;
+        User& Numberphone(const string&) const;
+        User& Username(const string&) const;
 };
