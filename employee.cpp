@@ -11,6 +11,7 @@
 #include "chitietphieunhap.h"
 #include "thongke.h"
 #include <iomanip>
+#include <vector>
 Employee::Employee(){}
 Employee::Employee(const int&ID,const string& username,const string& password,const string& fullname,const string& phone,const string& email,const string& address):
     Person(username,password,fullname,phone,email,address),employeeID(ID){}
@@ -446,6 +447,96 @@ void Employee::employee_menu() const{
             }
             cout<<"Nhan Enter de tro ve"<<endl;
             {
+                string tmp;
+                getline(cin,tmp);
+            }
+            clear_screen();
+            goto menu;
+            break;
+        }
+        case 11:{
+            int month,year;
+            cout<<"Nhap thang (1-12): ";
+            cin>>month;
+            while (month<1 || month>12){
+                cout<<"Thang khong hop le! Vui long nhap lai (1-12): ";
+                cin>>month;
+            }
+            cout<<"Nhap nam: ";
+            cin>>year;
+            while (year<2023 || year>2025){
+                cout<<"Nam khong hop le! Vui long nhap lai: ";
+                cin>>year;
+            }
+            auto days_in_month=[&](int m,int y){
+                int days[]={31,28,31,30,31,30,31,31,30,31,30,31};
+                bool leap=(y%4==0 && y%100!=0) || (y%400==0);
+                if (m==2 && leap) return 29;
+                return days[m-1];
+            };
+            Thongke report;
+            report=report.Tke_doanhthu(month,year);
+            cout<<"\n=== THONG KE DON NHAP/XUAT THANG "<<month<<"/"<<year<<" ===\n";
+            cout<<left
+                <<setw(12)<<"SL nhap"
+                <<setw(12)<<"SL xuat"
+                <<setw(18)<<"Tien nhap"
+                <<setw(18)<<"Tien xuat"
+                <<setw(18)<<"Doanh thu"
+                <<endl;
+            cout<<string(78,'-')<<endl;
+            cout<<left
+                <<setw(12)<<report.GetSLDonNhap()
+                <<setw(12)<<report.GetSLDonXuat()
+                <<setw(18)<<report.GetTienNhap()
+                <<setw(18)<<report.GetTienXuat()
+                <<setw(18)<<report.GetDoanhThu()
+                <<endl;
+            int days=days_in_month(month,year);
+            vector<int> dayImport(days+1,0),dayExport(days+1,0);
+            vector<long long> dayImportValue(days+1,0),dayExportValue(days+1,0);
+            for (int i=0;i<PurchaseOrder_List.getsize();i++){
+                int parsed[3];
+                if (!parse_date(PurchaseOrder_List[i].GetDate(),parsed)) continue; // kiểm tra ngày tháng hợp lệ
+                if (parsed[1]==month && parsed[2]==year){
+                    int d=parsed[0];
+                    dayImport[d]++; 
+                    dayImportValue[d]+=PurchaseOrder_List[i].getsum();
+                }
+            }
+            for (int i=0;i<CustomerOrder_List.getsize();i++){
+                int parsed[3];
+                if (!parse_date(CustomerOrder_List[i].GetDate(),parsed)) continue;
+                if (parsed[1]==month && parsed[2]==year){
+                    int d=parsed[0];
+                    dayExport[d]++;
+                    dayExportValue[d]+=CustomerOrder_List[i].getsum();
+                }
+            }
+            cout<<"\n--- Chi tiet tung ngay ---\n";
+            cout<<left
+                <<setw(8)<<"Ngay"
+                <<setw(12)<<"SL nhap"
+                <<setw(12)<<"SL xuat"
+                <<setw(18)<<"Tien nhap"
+                <<setw(18)<<"Tien xuat"
+                <<setw(18)<<"Doanh thu"
+                <<endl;
+            cout<<string(86,'-')<<endl;
+            for (int d=1;d<=days;d++){
+                long long doanhthu=dayExportValue[d]-dayImportValue[d];
+                cout<<left
+                    <<setw(8)<<d
+                    <<setw(12)<<dayImport[d]
+                    <<setw(12)<<dayExport[d]
+                    <<setw(18)<<dayImportValue[d]
+                    <<setw(18)<<dayExportValue[d]
+                    <<setw(18)<<doanhthu
+                    <<endl;
+            }
+            cout<<"Nhan Enter de quay lai";
+            {
+                cin.ignore();
                 string tmp;
                 getline(cin,tmp);
             }

@@ -181,7 +181,7 @@ void User::user_menu() const{
             if (result.getsize()==0){
                 cout<<"[Thong bao] Ban chua co don hang nao.\n";
                 cout<<"Nhan Enter de quay lai menu";
-                string pause;getline(cin,pause);
+               // string pause;getline(cin,pause);
                 main_menu();
                 break;
             }
@@ -189,15 +189,17 @@ void User::user_menu() const{
             cout<<left
                 <<setw(6)<<"ID"
                 <<setw(15)<<"Ngay"
-                <<setw(15)<<"Kho"
+                <<setw(20)<<"Kho"
                 <<setw(15)<<"Tong tien"
                 <<endl;
             cout<<string(51,'-')<<endl;
             for (int i=0;i<result.getsize();i++){
+                Warehouse t1;
+                t1=t1.Find_by_id(result[i].GetWarehouseID(),Warehouse_List);
                 cout<<left
                     <<setw(6)<<result[i].getID()
                     <<setw(15)<<result[i].GetDate()
-                    <<setw(15)<<result[i].GetWarehouseID()
+                    <<setw(20)<<t1.Get_Name()
                     <<setw(15)<<result[i].getsum()
                     <<endl;
             }
@@ -225,6 +227,7 @@ void User::user_menu() const{
         }
         case 5:{
             choose_warehouse(a);
+            goto option;
             break;
         }
         case 6:{
