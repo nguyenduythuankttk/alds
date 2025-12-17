@@ -63,7 +63,7 @@ void choose_warehouse(Warehouse &w){
     }
 }
 void clear_screen(){
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 #ifdef _WIN32
     system("cls");
 #else
@@ -247,13 +247,12 @@ void forget_password(){
         User tmp;
         ptr=&tmp.Numberphone(s);
     } catch(...){
+        try{
+            User tmp;
+            ptr=&tmp.Username(s);
+        }catch (...){
 
-    }
-    try{
-        User tmp;
-        ptr=&tmp.Username(s);
-    }catch (...){
-
+        }
     }
     if (ptr==nullptr) {
         cout<<"Nguoi dung nay khong ton tai.Vui long tao tai khoan moi!";

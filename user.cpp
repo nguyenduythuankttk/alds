@@ -73,7 +73,9 @@ void User::user_menu() const{
     cout << "| 3 | Tim kiem san pham                      |\n";
     cout << "| 4 | Tra cuu don hang                       |\n";
     cout << "| 5 | Chon kho hang                          |\n";
-    cout << "| 6 | Dang xuat                              |\n";
+    cout << "| 6 | Doi mat khau                           |\n";
+    cout << "| 7 | Doi thong tin ca nhan                  |\n";
+    cout << "| 8 | Dang xuat                              |\n";
     cout << "----------------------------------------------\n";
     cout << "=> Moi lua chon (1-5): ";
     int choice;
@@ -231,9 +233,18 @@ void User::user_menu() const{
             goto option;
             break;
         }
-        case 6:{
+        case 8:{
             main_menu();
             break;
+        }
+        case 6:{
+            clear_screen();
+            forget_password();
+            break;
+        }
+        case 7:{
+            clear_screen();
+            
         }
     }
     return;
