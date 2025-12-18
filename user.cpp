@@ -77,7 +77,7 @@ void User::user_menu() const{
     cout << "| 7 | Doi thong tin ca nhan                  |\n";
     cout << "| 8 | Dang xuat                              |\n";
     cout << "----------------------------------------------\n";
-    cout << "=> Moi lua chon (1-5): ";
+    cout << "=> Moi lua chon (1-8): ";
     int choice;
     cin>>choice;cin.ignore();
     Product p;
@@ -243,8 +243,92 @@ void User::user_menu() const{
             break;
         }
         case 7:{
-            clear_screen();
-            
+            int currentIndex=-1;
+            for (int i=0;i<User_List.getsize();i++){
+                if (User_List[i].GetID()==current_User.GetID()){
+                    currentIndex=i;
+                    break;
+                }
+            }
+            if (currentIndex==-1){
+                cout<<"Khong tim thay thong tin nguoi dung.\n";
+                cout<<"Nhan Enter de quay lai menu.";
+                string pause;
+                getline(cin,pause);
+                goto option;
+            }
+            while (true){
+                clear_screen();
+                cout<<"\n=== CAP NHAT THONG TIN CA NHAN ===\n";
+                cout<<"1. Doi so dien thoai (hien tai: "<<current_User.getPhone()<<")\n";
+                cout<<"2. Doi email (hien tai: "<<current_User.getEmail()<<")\n";
+                cout<<"3. Doi dia chi (hien tai: "<<current_User.getAddress()<<")\n";
+                cout<<"0. Quay lai\n";
+                cout<<"=> Moi lua chon: ";
+                string input;
+                getline(cin,input);
+                if (input=="0"){
+                    goto option;
+                }
+                if (input.empty()) continue;
+                int k;
+                try{
+                    k=stoi(input);
+                }catch(const invalid_argument&){
+                    cout<<"Lua chon khong hop le.\n";
+                    cout<<"Nhan Enter de tiep tuc...";
+                    string pause;
+                    getline(cin,pause);
+                    continue;
+                }
+                string newValue;
+                switch (k){
+                    case 1:{
+                        cout<<"Nhap so dien thoai moi: ";
+                        getline(cin,newValue);
+                        if (newValue.empty()){
+                            cout<<"So dien thoai khong duoc de trong.\n";
+                            break;
+                        }
+                        current_User.SetPhone(newValue);
+                        User_List[currentIndex].SetPhone(newValue);
+                        cout<<"Da cap nhat so dien thoai.\n";
+                        break;
+                    }
+                    case 2:{
+                        cout<<"Nhap email moi: ";
+                        getline(cin,newValue);
+                        if (newValue.empty()){
+                            cout<<"Email khong duoc de trong.\n";
+                            break;
+                        }
+                        current_User.SetEmail(newValue);
+                        User_List[currentIndex].SetEmail(newValue);
+                        cout<<"Da cap nhat email.\n";
+                        break;
+                    }
+                    case 3:{
+                        cout<<"Nhap dia chi moi: ";
+                        getline(cin,newValue);
+                        if (newValue.empty()){
+                            cout<<"Dia chi khong duoc de trong.\n";
+                            break;
+                        }
+                        current_User.SetAddress(newValue);
+                        User_List[currentIndex].SetAddress(newValue);
+                        cout<<"Da cap nhat dia chi.\n";
+                        break;
+                    }
+                    default:{
+                        cout<<"Lua chon khong hop le.\n";
+                        break;
+                    }
+                }
+                cout<<"Nhan Enter de tiep tuc...";
+                string pause;
+                getline(cin,pause);
+            }
+            break;
         }
     }
     return;
