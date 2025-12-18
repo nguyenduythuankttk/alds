@@ -234,6 +234,7 @@ void User::user_menu() const{
             break;
         }
         case 8:{
+            clear_screen();
             main_menu();
             break;
         }
