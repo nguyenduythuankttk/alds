@@ -144,6 +144,7 @@ void PurchaseOrder::create_PurchaseOrder(Vector<PurchaseOrder>& v){
 
     v.push_back(newOrder);
     cout<<"Da tao phieu nhap thanh cong! Tong tien: "<<newOrder.sum<<"\n";
+    
 }
 
 void PurchaseOrder::show() const{

@@ -159,6 +159,7 @@ void CustomerOrder::create_Order(Vector <CustomerOrder>&v){
     v.push_back(newOrder);
     a.ProductList(inWarehouse);
     cout<<"[Thong bao] Tao don hang thanh cong! Tong tien: "<<newOrder.sum<<"\n";
+    clear_screen();
 }
 
 void CustomerOrder::show() const{
@@ -196,4 +197,5 @@ void CustomerOrder::show() const{
     if (!found){
         cout<<"(Khong co chi tiet san pham)\n";
     }
+    clear_screen();
 }

@@ -78,7 +78,7 @@ void sign_up(Vector <User>&v){
     getline(cin,name);
     for (int i=0;i<v.getsize();i++){
         if (v[i].Getusername()==name){
-            cout<<"Da co nguoi dung su dung ten nay.Vui long chon ten khac";
+            cout<<"Da co nguoi dung su dung ten nay.Vui long chon ten khac\n";
             goto create_username;
             break;
         }
@@ -183,7 +183,7 @@ void main_menu(){
             employee_sign_in(current_Employee,Employee_List);
             break;
         case 4:{
-            return;
+            clear_screen();
             break;
         }
     }

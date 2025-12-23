@@ -138,6 +138,7 @@ void Employee::employee_menu() const{
                 }
                 string pause;
                 cout<<"Nhap Enter quay lai";getline(cin,pause);
+                
                 goto menu;
             }
             else {
@@ -147,7 +148,7 @@ void Employee::employee_menu() const{
                 if (c=='Y') goto menu;
                 else goto id;
             }
-
+            clear_screen();
             break;
         }
         case 2:{
@@ -158,7 +159,9 @@ void Employee::employee_menu() const{
                 string tmp;
                 getline(cin,tmp);
             }
+            clear_screen();
             goto menu;
+            break;
         }
         case 3:{
             cout<<"\n=== DANH SACH NHAN VIEN ===\n";
@@ -190,7 +193,9 @@ void Employee::employee_menu() const{
                 string tmp;
                 getline(cin,tmp);
             }
+            clear_screen();
             goto menu;
+            break;
         }
         case 4:{
             Product p;
@@ -216,7 +221,9 @@ void Employee::employee_menu() const{
                 list[i].showinfo();
             }
             cout<<"Nhan Enter de quay lai";getline(cin,s);
+            clear_screen();
             goto menu;
+            break;
         }
         case 5:{
             string date;
@@ -280,7 +287,9 @@ void Employee::employee_menu() const{
                 string tmp;
                 getline(cin,tmp);
             }
+            clear_screen();
             goto menu;
+            break;
         }
         case 6:{
             string date;
@@ -342,7 +351,9 @@ void Employee::employee_menu() const{
                 string tmp;
                 getline(cin,tmp);
             }
+            clear_screen();
             goto menu;
+            break;
         }
         case 7:{
             string date;
@@ -379,6 +390,7 @@ void Employee::employee_menu() const{
             }
             clear_screen();
             goto menu;
+            break;
         }
         case 8:{
             int id;
@@ -419,6 +431,7 @@ void Employee::employee_menu() const{
             }
             clear_screen();
             goto menu;
+            break;
         }
         case 10:{
             cout<<"\n=== DANH SACH NGUOI DUNG ===\n";
@@ -579,6 +592,7 @@ void Employee::employee_menu() const{
             }
             cout<<"Nhan Enter de quay lai";
             {
+                cin.ignore();
                 string tmp;
                 getline(cin,tmp);
             }

@@ -241,6 +241,8 @@ void User::user_menu() const{
         case 6:{
             clear_screen();
             forget_password();
+            cout<<"Da thay doi mat khau thanh cong! Tro ve menu\n";
+            goto option;
             break;
         }
         case 7:{
