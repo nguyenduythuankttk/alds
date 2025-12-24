@@ -15,7 +15,7 @@ class User:public Person{
         string getFullname() const;
         string getPhone() const;
         string getEmail() const;
-        void ShowInfo() const;
+        void ShowInfo();
         void readfile(Vector<User> &);
         void savefile(const Vector<User> &) const;
         int GetID() const;

@@ -13,7 +13,7 @@ class Employee:public Person{
         int getEmployeeID() const;
         void readfile(Vector<Employee>&);
         void savefile(const Vector<Employee>&) const;
-        void ShowInfo() const;
+        void ShowInfo();
         void employee_menu() const;
         string Getusername() const {return username;}
         string Getpassword() const {return password;}

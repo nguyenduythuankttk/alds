@@ -39,3 +39,4 @@ void Person::SetEmail(const string& email){
 void Person::SetAddress(const string& address){
     this->address=address;
 }
+void Person::ShowInfo(){}

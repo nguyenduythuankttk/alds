@@ -25,6 +25,6 @@ class Person{
         void SetPhone(const string&);
         void SetEmail(const string&);
         void SetAddress(const string&);
-        
+        virtual void ShowInfo();
         
 };

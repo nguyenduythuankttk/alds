@@ -13,7 +13,7 @@ User::User(const User& other):Person(other){
     this->userID=other.userID;
 }
 User::~User(){}
-void User::ShowInfo() const{
+void User::ShowInfo(){
     cout<<"ID nguoi dung:"<<userID<<endl;
     cout<<"Ten tai khoan:"<<username<<endl;
     cout<<"Mat khau::"<<password<<endl;

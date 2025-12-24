@@ -16,7 +16,7 @@ Employee::Employee(){}
 Employee::Employee(const int&ID,const string& username,const string& password,const string& fullname,const string& phone,const string& email,const string& address):
     Person(username,password,fullname,phone,email,address),employeeID(ID){}
 Employee::~Employee(){}
-void Employee::ShowInfo() const{
+void Employee::ShowInfo(){
     cout<<"ID nguoi dung:"<<employeeID<<endl;
     cout<<"Ten tai khoan:"<<username<<endl;
     cout<<"Mat khau:"<<password<<endl;
@@ -80,7 +80,7 @@ void Employee::employee_menu() const{
     cout << "|13 | Dang xuat                                    |\n";
     cout << "----------------------------------------------------\n";
     int lc;
-    cout<<"=> Moi lua chon (1-12): ";cin>>lc;cin.ignore();
+    cout<<"=> Moi lua chon (1-13): ";cin>>lc;cin.ignore();
     switch (lc){
         case 1:{
             int s;
