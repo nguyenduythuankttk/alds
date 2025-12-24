@@ -50,5 +50,5 @@ class Product {
         void showinfo() const;
         void Add_Product(Vector<Product>&, const string&);
         Product& Find_byid(const string&, const Vector<Product>&);
-        void sx(const Vector<Product>& ,Vector <Product>&);
+        void sx(const Vector<Product> ,Vector <Product>&);
     };

@@ -119,7 +119,7 @@ void User::user_menu() const{
             cout<<"2.Quay lai\n";
             cout<<"=> Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2)  {
-                inWarehouse.Erase();
+                list.Erase();
                goto option;
             }
             else {
@@ -137,7 +137,7 @@ void User::user_menu() const{
             cout<<"2.Quay lai\n";
             cout<<"=> Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2)  {
-                inWarehouse.Erase();
+              //  inWarehouse.Erase();
                goto option;
             }
             else {
@@ -166,7 +166,7 @@ void User::user_menu() const{
             cout<<"2.Quay lai\n";
             cout<<"=> Moi lua chon: ";cin>>lc;cin.ignore();
             if (lc==2) {
-                inWarehouse.Erase();
+                result.Erase();
                 goto option;
                 
             }

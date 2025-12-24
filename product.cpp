@@ -222,7 +222,7 @@ void Product::Find_product(const Vector<Product>&v, Vector<Product>& result,cons
             result.push_back(v[i]);
     }
 }
-void Product::sx(const Vector<Product> &v,Vector <Product> &r){
+void Product::sx(const Vector<Product> v,Vector <Product> &r){
     for (int i=0;i<v.getsize();i++){
         r.push_back(v[i]);
     }
